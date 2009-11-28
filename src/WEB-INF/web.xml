@@ -12,40 +12,30 @@
   </servlet>
 
   <servlet>
-     <servlet-name>DeliveryView</servlet-name>
-     <jsp-file>delivery.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
      <servlet-name>UpdateServlet</servlet-name>
      <servlet-class>webmenu.UpdateServlet</servlet-class>
   </servlet>
 
-  <servlet>
-     <servlet-name>StaticContentServlet</servlet-name>
-     <servlet-class>webmenu.StaticContentServlet</servlet-class>
-     <init-param>
-        <param-name>basePath</param-name>
-        <param-value>resources</param-value>
-     </init-param>
-  </servlet>
+  <!-- TODO - this servlet must be protected, only Admin can access it -->
+  <servlet-mapping>
+    <servlet-name>UpdateServlet</servlet-name>
+    <url-pattern>/admin/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- TODO - make /view/* private -->
 
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/menu/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>UpdateServlet</servlet-name>
-    <url-pattern>/-update/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-     <servlet-name>StaticContentServlet</servlet-name>
-     <url-pattern>/resources/*</url-pattern>
+    <servlet-name>MainServlet</servlet-name>
+    <url-pattern>/menu</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
-     <welcome-file>MainServlet</welcome-file>
+     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+
 </web-app>

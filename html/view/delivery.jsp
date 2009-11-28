@@ -2,7 +2,7 @@
 <html>
 <head>
    <title>Denní menu :: <%= request.getAttribute("location") %> :: rozvoz jídla</title>
-   <link href="/resources/main.css" rel="stylesheet" type="text/css" />
+   <link href="/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
    Denní menu: <%= request.getAttribute("location") %>

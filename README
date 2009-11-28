@@ -1,0 +1,16 @@
+URL scheme:
+
+/menu/<location>/<type>
+   -> goes to the Servlet controller
+
+/view/xyz.jsp
+   -> JSP views, can't be accessed from outside
+
+/admin/*
+   -> admin tasks, accessible by ADMIN only
+
+/index.jsp
+   -> main page
+
+all other URLS:
+   -> static files
