@@ -1,0 +1,3 @@
+* logging
+* generate unique version to appengine-web.xml in each build
+
