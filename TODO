@@ -1,3 +1,10 @@
-* logging
-* generate unique version to appengine-web.xml in each build
+* Prepare basic View
+* Write code for fetching first menu
+...
 
+Later:
+* integrate analytics (Google Analytics?)
+
+
+Next versions:
+* Forum via twitter? (Find tweets containing a special short url, that points to our website).

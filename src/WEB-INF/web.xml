@@ -4,15 +4,19 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
    version="2.5"> 
-  <display-name>New Project Template</display-name>
+  <display-name>Denni menu v ceskych restauracich</display-name>
   
   <servlet>
-    <servlet-name>hello</servlet-name>
-    <servlet-class>webmenu.HelloAppEngineServlet</servlet-class>
+    <servlet-name>MainServlet</servlet-name>
+    <servlet-class>webmenu.MainServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>hello</servlet-name>
-    <url-pattern>/</url-pattern>
+    <servlet-name>MainServlet</servlet-name>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
+
+  <welcome-file-list>
+     <welcome-file>MainServlet</welcome-file>
+  </welcome-file-list>
 </web-app>

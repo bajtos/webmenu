@@ -22,6 +22,17 @@
   <!-- Pick up the Ant macros and taskdefs for App Engine -->
   <import file="${appengine.sdk}/config/user/ant-macros.xml"/>
 
+  <!-- directory with additional .jar files and other build-related files -->
+  <property name="build.tools.dir" location="build" />
+
+  <!-- XML task -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+    <classpath>
+      <fileset dir="${build.tools.dir}">
+        <include name="*.jar"/>
+      </fileset>
+    </classpath>
+  </taskdef>
 
   <!-- Remote debug port for dev_appserver -->
   <property name="debug.port" value="5005"/>
@@ -51,9 +62,15 @@
     </copy>
     <copy todir="${war.dir}/WEB-INF">
       <fileset dir="src/WEB-INF">
-        <include name="*.xml"/>
+        <include name="web.xml"/>
+      </fileset>
+      <fileset dir="src">
+        <include name="logging.properties"/>
       </fileset>
     </copy>
+    <xmltask source="src/WEB-INF/appengine-web.xml" dest="${war.dir}/WEB-INF/appengine-web.xml">
+       <replace path="/:appengine-web-app/:version/text()" withText="${build.number}"/> 
+    </xmltask>
     <enhance_war war="${war.dir}"/>
   </target>
 
@@ -62,7 +79,7 @@
     <enhance_war war="${war.dir}"/>
   </target>
 
-  <target name="compile"
+  <target name="compile" depends="init"
           description="Compile the application servlet code">
     <mkdir dir="${war.dir}/WEB-INF/classes"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
@@ -76,6 +93,11 @@
         </fileset>
       </classpath>
     </javac>
+  </target>
+
+  <target name="init" description="Initialize build">
+     <buildnumber file="${build.tools.dir}/build.number"/>
+     <echo>Build number: ${build.number}</echo>
   </target>
 
   <target name="clean"

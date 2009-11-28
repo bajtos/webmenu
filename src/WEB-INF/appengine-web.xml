@@ -2,6 +2,11 @@
   <!-- Replace this with your application id from http://appengine.google.com -->
   <application>new-project-template</application>
 
+  <!-- the version is set in build.xml -->
   <version>1</version>
+
+ <system-properties>
+   <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+ </system-properties>
 
 </appengine-web-app>
