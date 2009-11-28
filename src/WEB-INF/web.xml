@@ -16,13 +16,10 @@
      <servlet-class>webmenu.UpdateServlet</servlet-class>
   </servlet>
 
-  <!-- TODO - this servlet must be protected, only Admin can access it -->
   <servlet-mapping>
     <servlet-name>UpdateServlet</servlet-name>
     <url-pattern>/admin/*</url-pattern>
   </servlet-mapping>
-
-  <!-- TODO - make /view/* private -->
 
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
@@ -37,5 +34,25 @@
   <welcome-file-list>
      <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+
+  <!-- security constraints -->
+
+  <security-constraint>
+     <web-resource-collection>
+        <web-resource-name>Views</web-resource-name>
+        <url-pattern>/view/*</url-pattern>
+     </web-resource-collection>
+     <auth-constraint/>
+  </security-constraint>
+
+  <security-constraint>
+     <web-resource-collection>
+        <url-pattern>/admin/*</url-pattern>
+     </web-resource-collection>
+     <auth-constraint>
+        <role-name>admin</role-name>
+     </auth-constraint>
+  </security-constraint>
+
 
 </web-app>
