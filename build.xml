@@ -58,6 +58,7 @@
         <exclude name="**/.svn/**"/>
         <exclude name="**/.git/**"/>
         <exclude name="**/*~"/>
+        <exclude name="**/*.swp"/>
       </fileset>
     </copy>
     <copy todir="${war.dir}/WEB-INF">
