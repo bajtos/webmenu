@@ -50,7 +50,7 @@
   <!-- Change if you like e.g. "war" better than "www" for the output -->
   <property name="war.dir" location="www"/>
 
-  <target name="war" depends="enhance" 
+  <target name="war" depends="enhance,build-number" 
           description="Assemble the application directory">
     <mkdir dir="${war.dir}/WEB-INF"/>
     <copy todir="${war.dir}">
@@ -79,7 +79,7 @@
     <enhance_war war="${war.dir}"/>
   </target>
 
-  <target name="compile" depends="init"
+  <target name="compile"
           description="Compile the application servlet code">
     <mkdir dir="${war.dir}/WEB-INF/classes"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
@@ -95,7 +95,7 @@
     </javac>
   </target>
 
-  <target name="init" description="Initialize build">
+  <target name="build-number" description="Update build-number">
      <buildnumber file="${build.tools.dir}/build.number"/>
      <echo>Build number: ${build.number}</echo>
   </target>

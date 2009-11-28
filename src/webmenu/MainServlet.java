@@ -1,6 +1,7 @@
 package webmenu;
 
 import java.io.IOException;
+import javax.servlet.*;
 import javax.servlet.http.*;
 import java.util.logging.Logger;
 
@@ -11,7 +12,7 @@ public class MainServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(MainServlet.class.getName());
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+			throws ServletException, IOException {
 		String path = req.getPathInfo();
 		log.fine("Request path: " + path);
 		if (path == null || "/".equals(path))
@@ -37,8 +38,14 @@ public class MainServlet extends HttpServlet {
 		resp.sendRedirect(resp.encodeRedirectURL("hradec-kralove/rozvoz"));
 	}
 
-	void doList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/plain");
-		resp.getWriter().println("Rozvoz jidla.");
-	}
+   void doList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+      req.setAttribute("location", "Hradec Králové");
+      view(req, resp, "DeliveryView");
+   }
+
+    void view(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException {
+        RequestDispatcher dispatcher = getServletContext().getNamedDispatcher(view);
+        dispatcher.forward(request, response);
+    }
+
 }

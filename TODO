@@ -1,6 +1,6 @@
-* Prepare basic View
-* Write code for fetching first menu
+* Write code for fetching the first menu
 ...
+* Secure -update servlet
 
 Later:
 * integrate analytics (Google Analytics?)
