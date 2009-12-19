@@ -1,6 +1,6 @@
 <!-- This is a template Ant file for a very basic Google AppEngine project -->
 
-<project name="webmenu" default="war">
+<project name="webmenu" default="run-test">
 
   <!-- When you copy this template to your working directories, change the
        value of appengine.sdk accordingly.  You may also want to use Ant's
@@ -50,6 +50,8 @@
   <!-- Change if you like e.g. "war" better than "www" for the output -->
   <property name="war.dir" location="www"/>
 
+  <property name="class.dir" location="${war.dir}/WEB-INF/classes" />
+
   <target name="war" depends="enhance,build-number" 
           description="Assemble the application directory">
     <mkdir dir="${war.dir}/WEB-INF"/>
@@ -72,26 +74,29 @@
     <xmltask source="src/WEB-INF/appengine-web.xml" dest="${war.dir}/WEB-INF/appengine-web.xml">
        <replace path="/:appengine-web-app/:version/text()" withText="${build.number}"/> 
     </xmltask>
-    <enhance_war war="${war.dir}"/>
   </target>
 
-  <target name="enhance" depends="compile"
+  <target name="enhance" depends="run-test"
           description="Enhance the classes after compilation">
     <enhance_war war="${war.dir}"/>
   </target>
 
+  <path id="classpath.base">
+     <fileset dir="${appengine.sdk}/lib/user">
+       <include name="*.jar"/>
+     </fileset>
+     <fileset dir="${appengine.sdk}/lib/shared">
+       <include name="*.jar"/>
+     </fileset>
+  </path>
+
   <target name="compile"
           description="Compile the application servlet code">
-    <mkdir dir="${war.dir}/WEB-INF/classes"/>
+    <mkdir dir="${class.dir}"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
-    <javac srcdir="src" destdir="${war.dir}/WEB-INF/classes">
+    <javac srcdir="src" destdir="${class.dir}" excludes="**/*Test*.java"> 
       <classpath>
-        <fileset dir="${appengine.sdk}/lib/user">
-          <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${appengine.sdk}/lib/shared">
-          <include name="*.jar"/>
-        </fileset>
+         <path refid="classpath.base" />
       </classpath>
     </javac>
   </target>
@@ -104,6 +109,7 @@
   <target name="clean"
           description="Force a clean slate to rebuild">
     <delete dir="${war.dir}"/>
+    <delete dir="${test.class.dir}"/>
   </target>
 
   <target name="runserver" depends="war"
@@ -151,6 +157,40 @@
         <arg value="${log.file}"/>
       </args>
     </appcfg>
+  </target>
+
+
+  <property name="test.class.dir" location="test-classes" />
+
+  <path id="classpath.test">
+     <path refid="classpath.base" />
+     <pathelement location="${build.tools.dir}/junit.jar" />
+     <pathelement location="${class.dir}" />
+  </path>
+
+  <target name="compile-test" depends="compile">
+    <mkdir dir="${test.class.dir}"/>
+    <javac srcdir="src" destdir="${test.class.dir}" includes="**/*Test*.java" debug="true"> 
+      <classpath>
+         <path refid="classpath.test" />
+      </classpath>
+    </javac>
+ </target>
+     
+  <target name="run-test" depends="compile,compile-test">
+     <junit haltonfailure="true">
+        <classpath>
+           <path refid="classpath.test" />
+           <pathelement location="${test.class.dir}" />
+        </classpath>
+
+        <formatter type="brief" usefile="false" />
+        <batchtest>
+           <fileset dir="src">
+              <include name="**/*Test.java"/>
+           </fileset>
+        </batchtest>
+     </junit>
   </target>
 
 </project>
