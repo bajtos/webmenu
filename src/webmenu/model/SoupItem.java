@@ -14,8 +14,9 @@ public class SoupItem
      */
     public String meal;
 
-    /**
+    /* not used yet
      * Price for soup ordered standalone - 0 means not available.
-     */
+     *
     public int price;
+     */
 }

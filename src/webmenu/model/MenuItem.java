@@ -14,13 +14,14 @@ public class MenuItem
      */
     public String meal;
 
-    /**
+    /* not used yet
      * Price for menu without soup - 0 means not available.
-     */
+     *
     public int price1;
+    */
 
     /**
      * Price for menu with soup - 0 means not available.
      */
-    public int price2;
+    public int price;
 }

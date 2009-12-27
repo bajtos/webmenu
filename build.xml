@@ -55,6 +55,7 @@
   <target name="war" depends="enhance,build-number" 
           description="Assemble the application directory">
     <mkdir dir="${war.dir}/WEB-INF"/>
+    <mkdir dir="${war.dir}/WEB-INF/lib"/>
     <copy todir="${war.dir}">
       <fileset dir="html">
         <exclude name="**/.svn/**"/>
@@ -70,6 +71,11 @@
       <fileset dir="src">
         <include name="logging.properties"/>
       </fileset>
+    </copy>
+    <copy todir="${war.dir}/lib">
+       <fileset dir="lib">
+          <include name="*.jar"/>
+       </fileset>
     </copy>
     <xmltask source="src/WEB-INF/appengine-web.xml" dest="${war.dir}/WEB-INF/appengine-web.xml">
        <replace path="/:appengine-web-app/:version/text()" withText="${build.number}"/> 
@@ -88,12 +94,18 @@
      <fileset dir="${appengine.sdk}/lib/shared">
        <include name="*.jar"/>
      </fileset>
+     <fileset dir="lib">
+        <include name="*.jar"/>
+     </fileset>
   </path>
 
   <target name="compile"
           description="Compile the application servlet code">
     <mkdir dir="${class.dir}"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
+    <!--
+    <echo message="classpath: ${toString:classpath.base}"/>
+    -->
     <javac srcdir="src" destdir="${class.dir}" excludes="**/*Test*.java"> 
       <classpath>
          <path refid="classpath.base" />
@@ -165,6 +177,7 @@
   <path id="classpath.test">
      <path refid="classpath.base" />
      <pathelement location="${build.tools.dir}/junit.jar" />
+     <pathelement location="${build.tools.dir}/hamcrest-all.jar" />
      <pathelement location="${class.dir}" />
   </path>
 
@@ -172,7 +185,7 @@
     <mkdir dir="${test.class.dir}"/>
     <javac srcdir="src" destdir="${test.class.dir}" includes="**/*Test*.java" debug="true"> 
       <classpath>
-         <path refid="classpath.test" />
+         <path refid="classpath.test"/>
       </classpath>
     </javac>
  </target>

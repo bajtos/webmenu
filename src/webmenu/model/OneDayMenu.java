@@ -4,37 +4,29 @@ import java.util.*;
 public class OneDayMenu
 {
     private Date day;
-    private List<SoupItem> soupItems;
-    private List<MenuItem> menuItems;
+    private SoupItem[] soupItems;
+    private MenuItem[] menuItems;
 
     public Date getDay()
     {
         return day;
     }
 
-    public Collection<SoupItem> getSoupItems()
+    public SoupItem[] getSoupItems()
     {
         return soupItems;
     }
 
-    public Collection<MenuItem> getMenuItems()
+    public MenuItem[] getMenuItems()
     {
         return menuItems;
     }
 
 
-    OneDayMenu(Date day)
+    OneDayMenu(Date day, SoupItem[] soups, MenuItem[] meals)
     {
         this.day = day;
-    }
-
-    public void addItem(SoupItem item)
-    {
-        soupItems.add(item);
-    }
-
-    public void addItem(MenuItem item)
-    {
-        menuItems.add(item);
+        this.soupItems = soups;
+        this.menuItems = meals;
     }
 }
