@@ -103,20 +103,20 @@ public class MamHladHkParserTest
         OneDayMenu m1 = menus[0];
         assertEquals(new GregorianCalendar(2009, 11-1, 16).getTime(), m1.getDay().getTime());
 
-        MenuItem[] menuItems = m1.getMenuItems();
-        assertThat(menuItems.length, equalTo(3));
+        List<MenuItem> menuItems = m1.getMenuItems();
+        assertThat(menuItems.size(), equalTo(3));
 
-        assertThat(menuItems[0].name, equalTo("Menu 1"));
-        assertThat(menuItems[0].meal, equalTo("Těstovinový salát se zeleninou a pikantními kuřecími nudličkami"));
-        assertThat(menuItems[0].price, equalTo(71));
+        assertThat(menuItems.get(0).getName(), equalTo("Menu 1"));
+        assertThat(menuItems.get(0).getMeal(), equalTo("Těstovinový salát se zeleninou a pikantními kuřecími nudličkami"));
+        assertThat(menuItems.get(0).getPrice(), equalTo(71));
 
-        assertThat(menuItems[1].name, equalTo("Menu 2"));
-        assertThat(menuItems[1].meal, equalTo("Boloňská směs, špagety, sýr"));
-        assertThat(menuItems[1].price, equalTo(77));
+        assertThat(menuItems.get(1).getName(), equalTo("Menu 2"));
+        assertThat(menuItems.get(1).getMeal(), equalTo("Boloňská směs, špagety, sýr"));
+        assertThat(menuItems.get(1).getPrice(), equalTo(77));
 
-        assertThat(menuItems[2].name, equalTo("Menu 3"));
-        assertThat(menuItems[2].meal, equalTo("Kuřecí směs Shanghai, kari rýže"));
-        assertThat(menuItems[2].price, equalTo(85));
+        assertThat(menuItems.get(2).getName(), equalTo("Menu 3"));
+        assertThat(menuItems.get(2).getMeal(), equalTo("Kuřecí směs Shanghai, kari rýže"));
+        assertThat(menuItems.get(2).getPrice(), equalTo(85));
 
         // tuesday was skipped
         // verify that the second menu has correct date

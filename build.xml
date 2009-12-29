@@ -52,7 +52,7 @@
 
   <property name="class.dir" location="${war.dir}/WEB-INF/classes" />
 
-  <target name="war" depends="enhance,build-number" 
+  <target name="war" depends="run-test, enhance, build-number" 
           description="Assemble the application directory">
     <mkdir dir="${war.dir}/WEB-INF"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
@@ -82,24 +82,33 @@
     </xmltask>
   </target>
 
-  <target name="enhance" depends="run-test"
+  <target name="enhance" depends="compile"
           description="Enhance the classes after compilation">
     <enhance_war war="${war.dir}"/>
   </target>
 
   <path id="classpath.base">
      <fileset dir="${appengine.sdk}/lib/user">
-       <include name="*.jar"/>
+        <include name="**/*.jar"/>
      </fileset>
      <fileset dir="${appengine.sdk}/lib/shared">
-       <include name="*.jar"/>
+        <include name="**/*.jar"/>
      </fileset>
      <fileset dir="lib">
         <include name="*.jar"/>
      </fileset>
   </path>
 
-  <target name="compile"
+  <target name="copyjars"
+     description="Copies the App Engine JARs to the WAR.">
+     <copy todir="${war.dir}/WEB-INF/lib" flatten="true">
+        <fileset dir="${appengine.sdk}/lib/user">
+           <include name="**/*.jar" />
+        </fileset>
+     </copy>
+  </target>
+
+  <target name="compile" depends="copyjars"
           description="Compile the application servlet code">
     <mkdir dir="${class.dir}"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
@@ -176,13 +185,17 @@
 
   <path id="classpath.test">
      <path refid="classpath.base" />
-     <pathelement location="${build.tools.dir}/junit.jar" />
-     <pathelement location="${build.tools.dir}/hamcrest-all.jar" />
+     <fileset dir="test-lib">
+        <include name="**/*.jar" />
+     </fileset>
      <pathelement location="${class.dir}" />
   </path>
 
   <target name="compile-test" depends="compile">
     <mkdir dir="${test.class.dir}"/>
+    <!--
+    <echo message="classpath: ${toString:classpath.test}"/>
+    -->
     <javac srcdir="src" destdir="${test.class.dir}" includes="**/*Test*.java" debug="true"> 
       <classpath>
          <path refid="classpath.test"/>
@@ -190,7 +203,7 @@
     </javac>
  </target>
      
-  <target name="run-test" depends="compile,compile-test">
+  <target name="run-test" depends="compile, compile-test, enhance">
      <junit haltonfailure="true">
         <classpath>
            <path refid="classpath.test" />

@@ -1,24 +1,38 @@
 package webmenu.model;
 
+import com.google.appengine.api.datastore.Key;
+import javax.jdo.annotations.*;
+
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class SoupItem
 {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
     /**
      *  Short title.
      *  Example: "Polévka".
      */
-    public String name;
+    @Persistent
+    private String name;
 
     /**
      * Description of the meal.
      * Example: "Čočková s párkem"
      */
-    public String meal;
+    @Persistent
+    private String meal;
 
     /* not used yet
      * Price for soup ordered standalone - 0 means not available.
      *
-    public int price;
+    @Persistent
+    private int price;
      */
+
+    public String getName() { return name; }
+    public String getMeal() { return meal; }
 
     public SoupItem(String name, String meal)
     {

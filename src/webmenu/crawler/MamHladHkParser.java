@@ -170,13 +170,13 @@ public class MamHladHkParser implements Parser
                 String[] names = parseDay(days.get(d));
                 if (names == null) continue;
 
-                SoupItem[] soups = new SoupItem[] { new SoupItem("Polévka", names[0]) };
+                List<SoupItem> soups = new ArrayList<SoupItem>(1);
+                soups.add(new SoupItem("Polévka", names[0]));
 
-                MenuItem[] meals = new MenuItem[] {
-                    new MenuItem("Menu 1", names[1], prices[0]),
-                    new MenuItem("Menu 2", names[2], prices[1]),
-                    new MenuItem("Menu 3", names[3], prices[2]),
-                };
+                List<MenuItem> meals = new ArrayList<MenuItem>(3);
+                meals.add(new MenuItem("Menu 1", names[1], prices[0]));
+                meals.add(new MenuItem("Menu 2", names[2], prices[1]));
+                meals.add(new MenuItem("Menu 3", names[3], prices[2]));
 
                 retval.add(new OneDayMenu((Calendar)start.clone(), soups, meals));
             }
