@@ -19,4 +19,10 @@ public class SoupItem
      *
     public int price;
      */
+
+    public SoupItem(String name, String meal)
+    {
+        this.name = name;
+        this.meal = meal;
+    }
 }

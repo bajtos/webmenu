@@ -56,7 +56,7 @@ public class MamHladHkParser implements Parser
         return prices;
     }
 
-    Date parseStartDate(Document doc) throws CrawlException
+    Calendar parseStartDate(Document doc) throws CrawlException
     {
         String xpath = "//x:div[@id='main']/x:div[@class='columnleft3r']/x:p[1]/x:em";
         Nodes nodes = doc.query(xpath, xpathContext);
@@ -78,7 +78,7 @@ public class MamHladHkParser implements Parser
             int day = Integer.parseInt(m.group(1));
             if (year < 2008 || year > 2100)
                 throw new CrawlException("Suspicious date: '" + text + "', the year " + year + " is out of range");
-            return new GregorianCalendar(year, month - 1, day).getTime();
+            return new GregorianCalendar(year, month - 1, day);
         }
         catch (NumberFormatException e)
         {
@@ -95,31 +95,57 @@ public class MamHladHkParser implements Parser
         return nodes;
     }
 
-    String[] parseSoups(Document doc) throws CrawlException
+    /// @return { soup, menu1, menu2, menu3 } or null
+    String[] parseDay(Node menuPara) throws CrawlException
     {
-        Nodes nodes = parseMenuNodes(doc);
-
-        String[] retval = new String[5];
-        for (int ix=0; ix<nodes.size(); ix++)
+        ParentNode parent = menuPara.getParent();
+        String day = "(unknown)";
+        for (int ix = parent.indexOf(menuPara)-1; ix > 0; ix--)
         {
-            Node n = nodes.get(ix);
-            if (n.getChildCount() < 3)
+            Node n = parent.getChild(ix);
+            if (n instanceof Element && ((Element)n).getLocalName() == "h4")
             {
-                log.info("Skipping possibly empty menu node:\n" + n.toXML());
-                continue;
+                day = n.getValue();
+                break;
             }
-
-            if (!(n.getChild(0) instanceof Element && n.getChild(0).getValue().trim().equals("Polévka:") && n.getChild(1) instanceof Text))
-            {
-                log.info("Skipping menu node without soup:\n" + n.toXML());
-                continue;
-            }
-
-            String soup = n.getChild(1).getValue().trim();
-            log.fine("soup" + ix + ": " + soup);
-            retval[ix] = soup;
         }
-        return retval;
+        log.fine("Parsing day '" + day + "'");
+
+        if (menuPara.getChildCount() < 3)
+        {
+            log.warning("Skipping possibly empty menu node:\n" + menuPara.toXML());
+            return null;
+        }
+
+        if (!(menuPara.getChild(0) instanceof Element 
+                    && menuPara.getChild(0).getValue().trim().equals("Polévka:") 
+                    && menuPara.getChild(1) instanceof Text))
+        {
+            log.warning("Skipping menu node without soup:\n" + menuPara.toXML());
+            return null;
+        }
+
+        String[] meals = new String[4];
+        meals[0] = menuPara.getChild(1).getValue().trim();
+        log.fine("\tsoup: " + meals[0]);
+
+        for (int ix=1; ix<=3; ix++)
+        {
+            Nodes nodes = menuPara.query("x:span[@class='menu" + ix +"']/following-sibling::text()[position()=1]", xpathContext);
+            if (nodes.size() != 1)
+            {
+                StringBuffer msg = new StringBuffer("\tskipping menu" + ix + ": nodes.size() is " + nodes.size() + "\n");
+                for (int nix = 0; nix < nodes.size(); nix++)
+                    msg.append("\t\t--node" + nix + "--\n" + nodes.get(nix).toXML());
+                log.warning(msg.toString());
+                continue;
+            }
+
+            meals[ix] = nodes.get(0).getValue().trim();
+            log.fine("\tmenu" + ix + ": " + meals[ix]);
+        }
+
+        return meals;
     }
 
     public OneDayMenu[] parse(InputStream source) throws CrawlException
@@ -127,8 +153,35 @@ public class MamHladHkParser implements Parser
         try
         {
             Document doc = builder.build(source);
+            int prices[] = parsePrices(doc);
+            Calendar start = parseStartDate(doc);
+            
+            Nodes days = parseMenuNodes(doc);
+            if (days.size() != 5)
+                log.warning("There is menu for " + days.size() + " days.");
 
-            return new OneDayMenu[0];
+            List<OneDayMenu> retval = new LinkedList<OneDayMenu>();
+
+            for (int d=0; d<5; d++, start.add(Calendar.DAY_OF_MONTH, 1))
+            {
+                if (d >= days.size())
+                    break;
+
+                String[] names = parseDay(days.get(d));
+                if (names == null) continue;
+
+                SoupItem[] soups = new SoupItem[] { new SoupItem("Polévka", names[0]) };
+
+                MenuItem[] meals = new MenuItem[] {
+                    new MenuItem("Menu 1", names[1], prices[0]),
+                    new MenuItem("Menu 2", names[2], prices[1]),
+                    new MenuItem("Menu 3", names[3], prices[2]),
+                };
+
+                retval.add(new OneDayMenu((Calendar)start.clone(), soups, meals));
+            }
+
+            return retval.toArray(new OneDayMenu[0]);
         }
         catch (XPathException e)
         {

@@ -3,11 +3,11 @@ import java.util.*;
 
 public class OneDayMenu
 {
-    private Date day;
+    private Calendar day;
     private SoupItem[] soupItems;
     private MenuItem[] menuItems;
 
-    public Date getDay()
+    public Calendar getDay()
     {
         return day;
     }
@@ -23,7 +23,7 @@ public class OneDayMenu
     }
 
 
-    OneDayMenu(Date day, SoupItem[] soups, MenuItem[] meals)
+    public OneDayMenu(Calendar day, SoupItem[] soups, MenuItem[] meals)
     {
         this.day = day;
         this.soupItems = soups;

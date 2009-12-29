@@ -24,4 +24,11 @@ public class MenuItem
      * Price for menu with soup - 0 means not available.
      */
     public int price;
+
+    public MenuItem(String name, String meal, int price)
+    {
+        this.name = name;
+        this.meal = meal;
+        this.price = price;
+    }
 }
