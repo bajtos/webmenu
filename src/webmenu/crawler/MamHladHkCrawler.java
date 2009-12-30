@@ -5,7 +5,7 @@ import java.net.*;
 import webmenu.model.*;
 import webmenu.data.*;
 
-public class MamHladHkCrawler
+public class MamHladHkCrawler implements Crawler
 {
     protected UrlFetcher createFetcher()
     {
@@ -22,7 +22,7 @@ public class MamHladHkCrawler
         return new GoogleOneDayMenuStore();
     }
 
-    public void fetch() throws MalformedURLException, IOException, CrawlException
+    public void update() throws MalformedURLException, IOException, CrawlException
     {
         URL url = new URL("http://www.mamhladvhk.cz/tydenni-menu.php");
         InputStream webpage = createFetcher().fetch(url);

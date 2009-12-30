@@ -12,7 +12,8 @@ import webmenu.model.*;
 public class MamHladHkParser implements Parser
 {
     final static Pattern MenuPricePattern = Pattern.compile("^Menu (\\d): (\\d+),- Kč$");
-    final static Pattern StartDatePattern = Pattern.compile("^(\\d+)\\.(\\d+)\\. - (\\d+)\\.(\\d+)\\.(\\d+) od 11 do 15 hod.$");
+    final static Pattern StartDatePattern = Pattern.compile("^(\\d+)\\.(\\d+)\\. - (\\d+)\\.(\\d+)\\.(\\d+) od .*$");
+    final static Pattern MenuNumberPattern = Pattern.compile("^(\\d)\\.\\s*$");
 
     final static HtmlBuilder builder = new HtmlBuilder(XmlViolationPolicy.ALTER_INFOSET);
     final static XPathContext xpathContext = new XPathContext("x", "http://www.w3.org/1999/xhtml");
@@ -30,7 +31,10 @@ public class MamHladHkParser implements Parser
             Nodes nodes = doc.query(xpath, xpathContext);
 
             if (nodes.size() != 1)
-                throw new CrawlException("Cannot parse price for Menu" + menuNumber + " : nodes.size() is " + nodes.size());
+            {
+                log.info("Cannot parse price for class menu" + menuNumber + " : nodes.size() is " + nodes.size());
+                continue;
+            }
 
             String text = nodes.get(0).getValue();
 
@@ -38,15 +42,23 @@ public class MamHladHkParser implements Parser
             if (!m.matches())
                 throw new CrawlException("Malformed price text: '" + text + "'");
 
+            int priceIndex = ix;
             String num = m.group(1);
             if (!num.equals(menuNumber))
-                throw new CrawlException("Malformed price text: expected '" + menuNumber + "' but was '" + num + "'; text: '" + text + "'");
+            {
+                log.info("Class menu" + menuNumber + " contains Menu " + num + ". Using later value.");
+                try {
+                    priceIndex = Integer.parseInt(num) - 1;
+                } catch (NumberFormatException e) {
+                    throw new CrawlException("Cannot parse menu number '" + num + "' in text '" + text + "'", e);
+                }
+            }
 
             String priceString = m.group(2);
 
             try
             {
-                prices[ix] = Integer.parseInt(priceString);
+                prices[priceIndex] = Integer.parseInt(priceString);
             }
             catch (NumberFormatException e)
             {
@@ -131,7 +143,36 @@ public class MamHladHkParser implements Parser
 
         for (int ix=1; ix<=3; ix++)
         {
-            Nodes nodes = menuPara.query("x:span[@class='menu" + ix +"']/following-sibling::text()[position()=1]", xpathContext);
+            // extract menu number
+            Nodes nodes = menuPara.query("x:span[@class='menu" + ix +"']", xpathContext);
+            if (nodes.size() != 1)
+            {
+                StringBuffer msg = new StringBuffer("\tskipping menu" + ix + ": span[@class='menu" + ix + "'] has " + nodes.size() + " nodes.\n");
+                for (int nix = 0; nix < nodes.size(); nix++)
+                    msg.append("\t\t--node" + nix + "--\n" + nodes.get(nix).toXML());
+                log.warning(msg.toString());
+                continue;
+            }
+
+            String numberText = nodes.get(0).getValue();
+            Matcher m = MenuNumberPattern.matcher(numberText);
+            if (!m.matches())
+                throw new CrawlException("Malformed menu number: '" + numberText + "'");
+
+            int menuIndex = ix;
+            String num = m.group(1);
+            if (!num.equals(String.valueOf(ix))) {
+                log.info("\tclass menu" + ix + " contains Menu " + num + ". Using later value.");
+                try {
+                    menuIndex = Integer.parseInt(num);
+                } catch (NumberFormatException e) {
+                    log.warning("cannot parse '" + num + "' as integer, skipping class menu" + ix);
+                    continue;
+                }
+            }
+                
+            // extract meal name
+            nodes = menuPara.query("x:span[@class='menu" + ix +"']/following-sibling::text()[position()=1]", xpathContext);
             if (nodes.size() != 1)
             {
                 StringBuffer msg = new StringBuffer("\tskipping menu" + ix + ": nodes.size() is " + nodes.size() + "\n");
@@ -141,8 +182,8 @@ public class MamHladHkParser implements Parser
                 continue;
             }
 
-            meals[ix] = nodes.get(0).getValue().trim();
-            log.fine("\tmenu" + ix + ": " + meals[ix]);
+            meals[menuIndex] = nodes.get(0).getValue().trim();
+            log.fine("\tMenu " + menuIndex + ": " + meals[menuIndex]);
         }
 
         return meals;

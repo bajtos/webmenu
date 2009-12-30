@@ -26,8 +26,14 @@ public class MamHladHkParserTest
 
     InputStream getShortMenuStream() throws FileNotFoundException
     {
-        File f = TestUtil.getTestData("mamhladvhk-menu.html");
+        File f = TestUtil.getTestData("mamhladvhk-menu-short.html");
         // System.out.println(f.getCanonicalPath());
+        return new FileInputStream(f);
+    }
+
+    InputStream getTwoMealsMenuStream() throws FileNotFoundException
+    {
+        File f = TestUtil.getTestData("mamhladvhk-menu-2meals.html");
         return new FileInputStream(f);
     }
 
@@ -44,11 +50,25 @@ public class MamHladHkParserTest
         assertEquals(4, menus.length);
     }
 
+    @Test public void Parse_TwoMealsHtml_ReturnsThreeItems() throws CrawlException, IOException
+    {
+        InputStream html = getTwoMealsMenuStream();
+        OneDayMenu[] menus = parser.parse(html);
+        assertEquals(3, menus.length);
+    }
+
     @Test public void ParsePrices_ShortHtml_ReturnsCorrectPrices() throws CrawlException, IOException, ParsingException
     {
         Document doc = loadDocument(getShortMenuStream());
         int[] prices = parser.parsePrices(doc);
         assertArrayEquals(new int[] { 71, 77, 85 }, prices);
+    }
+
+    @Test public void ParsePrices_TwoMealsHtml_ReturnsCorrectPrices() throws CrawlException, IOException, ParsingException
+    {
+        Document doc = loadDocument(getTwoMealsMenuStream());
+        int[] prices = parser.parsePrices(doc);
+        assertArrayEquals(new int[] { 0, 77, 85 }, prices);
     }
 
     @Test public void ParseStartDate_ShortHtml_ReturnsCorrectDate() throws CrawlException, IOException, ParsingException
@@ -58,16 +78,23 @@ public class MamHladHkParserTest
         assertEquals(new GregorianCalendar(2009, 11-1, 16).getTime(), dt.getTime());
     }
 
-    String[] parseDay(int day) throws CrawlException, IOException, ParsingException
+    @Test public void ParseStartDate_TwoMealsHtml_ReturnsCorrectDate() throws CrawlException, IOException, ParsingException
     {
-        Document doc = loadDocument(getShortMenuStream());
+        Document doc = loadDocument(getTwoMealsMenuStream());
+        Calendar dt = parser.parseStartDate(doc);
+        assertEquals(new GregorianCalendar(2009, 12-1, 21).getTime(), dt.getTime());
+    }
+
+    String[] parseDay(int day, InputStream source) throws CrawlException, IOException, ParsingException
+    {
+        Document doc = loadDocument(source);
         Nodes days = parser.parseMenuNodes(doc);
         return parser.parseDay(days.get(day));
     }
 
-    @Test public void ParseDayMonday_ShortHtml_ReturnsCorrectNames() throws CrawlException, IOException, ParsingException
+    @Test public void ParseDay_MondayShortHtml_ReturnsCorrectNames() throws CrawlException, IOException, ParsingException
     {
-        String[] meals = parseDay(0);
+        String[] meals = parseDay(0, getShortMenuStream());
         String[] expected = new String[] { 
             "Zeleninový krém", 
             "Těstovinový salát se zeleninou a pikantními kuřecími nudličkami",
@@ -76,21 +103,38 @@ public class MamHladHkParserTest
         assertArrayEquals(expected, meals);
     }
 
-    @Test public void ParseDayTuesday_ShortHtml_ReturnsNull() throws CrawlException, IOException, ParsingException
+    @Test public void ParseDay_TuesdayShortHtml_ReturnsNull() throws CrawlException, IOException, ParsingException
     {
-        String[] meals = parseDay(1);
+        String[] meals = parseDay(1, getShortMenuStream());
         assertArrayEquals(null, meals);
     }
 
-    @Test public void ParseWednesday_ShortHtml_ReturnCorrectNames() throws CrawlException, IOException, ParsingException
+    @Test public void Parse_WednesdayShortHtml_ReturnsCorrectNames() throws CrawlException, IOException, ParsingException
     {
-        String[] meals = parseDay(2);
+        String[] meals = parseDay(2, getShortMenuStream());
         String[] expected = new String[] { 
             "Zelná s klobásou", 
             "Květákový mozeček, vařený brambor", 
             "Znojemská hovězí pečeně, rýže",
             "Kuřecí nudličky v smetanovobazalkové omáčce, těstoviny" };
         assertArrayEquals(expected, meals);
+    }
+
+    @Test public void ParseDay_MondayTwoMealsHtml_ReturnsCorrectNames() throws CrawlException, IOException, ParsingException
+    {
+        String[] meals = parseDay(0, getTwoMealsMenuStream());
+        String[] expected = new String[] { 
+            "Česnekový oukrop s šunkou", 
+            null,
+            "Slovenské halušky se slaninou a zelím",
+            "Hovězí maďarský guláš, houskový knedlík" };
+        assertArrayEquals(expected, meals);
+    }
+
+    @Test public void ParseDay_FridayTwoMealsHtml_ReturnsNull() throws CrawlException, IOException, ParsingException
+    {
+        String[] meals = parseDay(4, getTwoMealsMenuStream());
+        assertArrayEquals(null, meals);
     }
 
     @Test public void Parse_ShortHtml_MenuItemsAreCorrect() throws CrawlException, IOException

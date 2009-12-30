@@ -1,6 +1,9 @@
-* Write code for fetching the first menu
-...
-* Secure -update servlet
+* error handling & recovery in MamHladHkCrawler
+* implement GoogleOneDayMenuStore
+* front-end
+ - fetch menu from datastore
+ - display menu in HTML
+* web design
 
 Later:
 * integrate analytics (Google Analytics?)

@@ -36,7 +36,7 @@ public class MamHladHkCrawlerTest
         }});
 
         CustomCrawler crawler = new CustomCrawler(fetcher, parser, store);
-        crawler.fetch();
+        crawler.update();
 
         mockery.assertIsSatisfied();
     }

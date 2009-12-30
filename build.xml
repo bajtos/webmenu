@@ -72,9 +72,9 @@
         <include name="logging.properties"/>
       </fileset>
     </copy>
-    <copy todir="${war.dir}/lib">
+    <copy todir="${war.dir}/WEB-INF/lib" flatten="true">
        <fileset dir="lib">
-          <include name="*.jar"/>
+          <include name="**/*.jar"/>
        </fileset>
     </copy>
     <xmltask source="src/WEB-INF/appengine-web.xml" dest="${war.dir}/WEB-INF/appengine-web.xml">
