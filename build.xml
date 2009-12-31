@@ -52,18 +52,21 @@
 
   <property name="class.dir" location="${war.dir}/WEB-INF/classes" />
 
-  <target name="war" depends="run-test, enhance, build-number" 
+  <target name="html" depends="build-number">
+     <copy todir="${war.dir}">
+        <fileset dir="html">
+           <exclude name="**/.svn/**"/>
+           <exclude name="**/.git/**"/>
+           <exclude name="**/*~"/>
+           <exclude name="**/*.swp"/>
+        </fileset>
+     </copy>
+  </target>
+
+  <target name="war" depends="run-test, enhance, build-number, html" 
           description="Assemble the application directory">
     <mkdir dir="${war.dir}/WEB-INF"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
-    <copy todir="${war.dir}">
-      <fileset dir="html">
-        <exclude name="**/.svn/**"/>
-        <exclude name="**/.git/**"/>
-        <exclude name="**/*~"/>
-        <exclude name="**/*.swp"/>
-      </fileset>
-    </copy>
     <copy todir="${war.dir}/WEB-INF">
       <fileset dir="src/WEB-INF">
         <include name="web.xml"/>

@@ -79,9 +79,23 @@ public class GoogleOneDayMenuStore implements OneDayMenuStore
     
     public OneDayMenu getOneDayMenu(String restaurant, Date day)
     {
-        //Key key = createKey(createId(restaurant, menu.getDay()));
-        // TODO
-        log.severe("Not implemented yet.");
-        return null;
+       Key key = createKey(createId(restaurant, day));
+       PersistenceManager pm = getPersistenceManager();
+
+       try
+       {
+          OneDayMenu menu = pm.getObjectById(OneDayMenu.class, key);
+          OneDayMenu copy = pm.detachCopy(menu);
+          log.fine("[copy] soups: " + copy.getSoupItems() + " meals: " + copy.getMenuItems());
+          return copy;
+       }
+       catch (JDOObjectNotFoundException e)
+       {
+          return null;
+       }
+       finally
+       {
+          pm.close();
+       }
     }
 }
