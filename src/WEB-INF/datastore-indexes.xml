@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate="true">
+    <datastore-index kind="MenuItem" ancestor="true" source="manual">
+        <property name="menuItems_INTEGER_IDX" direction="asc"/>
+    </datastore-index>
+
+    <datastore-index kind="SoupItem" ancestor="true" source="manual">
+        <property name="soupItems_INTEGER_IDX" direction="asc"/>
+    </datastore-index>
+</datastore-indexes>

@@ -215,11 +215,14 @@ public class MamHladHkParser implements Parser
                 soups.add(new SoupItem("Polévka", names[0]));
 
                 List<MenuItem> meals = new ArrayList<MenuItem>(3);
-                meals.add(new MenuItem("Menu 1", names[1], prices[0]));
-                meals.add(new MenuItem("Menu 2", names[2], prices[1]));
-                meals.add(new MenuItem("Menu 3", names[3], prices[2]));
+                if (names[1] != null)
+                    meals.add(new MenuItem("Menu 1", names[1], prices[0]));
+                if (names[2] != null)
+                    meals.add(new MenuItem("Menu 2", names[2], prices[1]));
+                if (names[3] != null)
+                    meals.add(new MenuItem("Menu 3", names[3], prices[2]));
 
-                retval.add(new OneDayMenu((Calendar)start.clone(), soups, meals));
+                retval.add(new OneDayMenu(start.getTime(), soups, meals));
             }
 
             return retval.toArray(new OneDayMenu[0]);

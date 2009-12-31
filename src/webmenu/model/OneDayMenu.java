@@ -12,15 +12,21 @@ public class OneDayMenu
     private Key key;
 
     @Persistent
-    private Calendar day;
+    private Date day;
 
+    // TODO - use internal ordering
+    // @Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="state asc, city asc"))
     @Persistent
+    @Element(dependent = "true")
     private List<SoupItem> soupItems;
 
+    // TODO - use internal ordering
+    // @Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="state asc, city asc"))
     @Persistent
+    @Element(dependent = "true")
     private List<MenuItem> menuItems;
 
-    public Calendar getDay()
+    public Date getDay()
     {
         return day;
     }
@@ -40,7 +46,17 @@ public class OneDayMenu
         this.key = key;
     }
 
-    public OneDayMenu(Calendar day, List<SoupItem> soups, List<MenuItem> meals)
+    public void update(OneDayMenu from)
+    {
+        if (!this.getDay().equals(from.getDay()))
+            throw new IllegalArgumentException(
+                    "Cannot update OneDayMenuItem from an object for different day. " +
+                    "Mine is '" + this.getDay() + "', theirs is '" + from.getDay() + "'.");
+        this.soupItems = from.getSoupItems();
+        this.menuItems = from.getMenuItems();
+    }
+
+    public OneDayMenu(Date day, List<SoupItem> soups, List<MenuItem> meals)
     {
         this.day = day;
         this.soupItems = soups;

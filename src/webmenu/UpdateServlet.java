@@ -1,5 +1,6 @@
 package webmenu; 
 import java.io.IOException;
+import java.net.URL;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.util.logging.Logger;
@@ -25,10 +26,13 @@ public class UpdateServlet extends HttpServlet {
         }
 
         try {
-            crawler.update();
+            String urlString = req.getParameter("url");
+            URL url = urlString == null || urlString.isEmpty() ? null : new URL(urlString);
+
+            crawler.update(url);
             resp.setContentType("text/plain");
             resp.getWriter().println("OK");
-        } catch (CrawlException e) {
+        } catch (Exception e) {
             log.log(Level.SEVERE, "Update failed", e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

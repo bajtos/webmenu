@@ -25,18 +25,18 @@ public class MamHladHkCrawlerTest
         final OneDayMenuStore store = mockery.mock(OneDayMenuStore.class);
 
         final InputStream content = new ByteArrayInputStream(new byte[0]);
-        final OneDayMenu m1 = new OneDayMenu(new GregorianCalendar(2009, 10, 1), null, null);
-        final OneDayMenu m2 = new OneDayMenu(new GregorianCalendar(2009, 10, 2), null, null);
+        final OneDayMenu m1 = new OneDayMenu(new GregorianCalendar(2009, 10, 1).getTime(), null, null);
+        final OneDayMenu m2 = new OneDayMenu(new GregorianCalendar(2009, 10, 2).getTime(), null, null);
 
         mockery.checking(new Expectations() {{
-            oneOf(fetcher).fetch(new URL("http://www.mamhladvhk.cz/tydenni-menu.php")); will(returnValue(content));
+           oneOf(fetcher).fetch(new URL("http://www.mamhladvhk.cz/tydenni-menu.php")); will(returnValue(content));
             oneOf(parser).parse(content); will(returnValue(new OneDayMenu[] { m1, m2 }));
             oneOf(store).updateOneDayMenu(Restaurants.MAM_HLAD_HK, m1);
             oneOf(store).updateOneDayMenu(Restaurants.MAM_HLAD_HK, m2);
         }});
 
         CustomCrawler crawler = new CustomCrawler(fetcher, parser, store);
-        crawler.update();
+        crawler.update(null);
 
         mockery.assertIsSatisfied();
     }

@@ -145,7 +145,12 @@ public class MamHladHkParserTest
         assertThat(menus.length, greaterThan(2));
 
         OneDayMenu m1 = menus[0];
-        assertEquals(new GregorianCalendar(2009, 11-1, 16).getTime(), m1.getDay().getTime());
+        assertEquals(new GregorianCalendar(2009, 11-1, 16).getTime(), m1.getDay());
+
+        List<SoupItem> soupItems = m1.getSoupItems();
+        assertThat(soupItems.size(), equalTo(1));
+        assertThat(soupItems.get(0).getName(), equalTo("Polévka"));
+        assertThat(soupItems.get(0).getMeal(), equalTo("Zeleninový krém"));
 
         List<MenuItem> menuItems = m1.getMenuItems();
         assertThat(menuItems.size(), equalTo(3));
@@ -165,6 +170,33 @@ public class MamHladHkParserTest
         // tuesday was skipped
         // verify that the second menu has correct date
         OneDayMenu m2 = menus[1];
-        assertEquals(new GregorianCalendar(2009, 11-1, 18).getTime(), menus[1].getDay().getTime());
+        assertEquals(new GregorianCalendar(2009, 11-1, 18).getTime(), menus[1].getDay());
+    }
+
+    @Test public void Parse_TwoMealsHtml_MenuItemsAreCorrect() throws CrawlException, IOException
+    {
+        InputStream html = getTwoMealsMenuStream();
+        OneDayMenu[] menus = parser.parse(html);
+
+        assertThat(menus.length, greaterThan(0));
+
+        OneDayMenu m1 = menus[0];
+        assertEquals(new GregorianCalendar(2009, 12-1, 21).getTime(), m1.getDay());
+
+        List<SoupItem> soupItems = m1.getSoupItems();
+        assertThat(soupItems.size(), equalTo(1));
+        assertThat(soupItems.get(0).getName(), equalTo("Polévka"));
+        assertThat(soupItems.get(0).getMeal(), equalTo("Česnekový oukrop s šunkou"));
+
+        List<MenuItem> menuItems = m1.getMenuItems();
+        assertThat(menuItems.size(), equalTo(2));
+
+        assertThat(menuItems.get(0).getName(), equalTo("Menu 2"));
+        assertThat(menuItems.get(0).getMeal(), equalTo("Slovenské halušky se slaninou a zelím"));
+        assertThat(menuItems.get(0).getPrice(), equalTo(77));
+
+        assertThat(menuItems.get(1).getName(), equalTo("Menu 3"));
+        assertThat(menuItems.get(1).getMeal(), equalTo("Hovězí maďarský guláš, houskový knedlík"));
+        assertThat(menuItems.get(1).getPrice(), equalTo(85));
     }
 }

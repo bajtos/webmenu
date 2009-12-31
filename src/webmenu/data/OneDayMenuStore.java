@@ -1,6 +1,6 @@
 package webmenu.data;
 
-import java.util.Calendar;
+import java.util.Date;
 import webmenu.model.OneDayMenu;
 
 public interface OneDayMenuStore
@@ -10,5 +10,5 @@ public interface OneDayMenuStore
     
     /// Fetch a menu
     /// @return null if not found
-    OneDayMenu getOneDayMenu(String restaurant, Calendar day);
+    OneDayMenu getOneDayMenu(String restaurant, Date day);
 }

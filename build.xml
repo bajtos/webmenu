@@ -67,6 +67,7 @@
     <copy todir="${war.dir}/WEB-INF">
       <fileset dir="src/WEB-INF">
         <include name="web.xml"/>
+        <include name="datastore-indexes.xml"/>
       </fileset>
       <fileset dir="src">
         <include name="logging.properties"/>
@@ -112,10 +113,16 @@
           description="Compile the application servlet code">
     <mkdir dir="${class.dir}"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
+    <copy todir="${war.dir}/WEB-INF/classes">
+       <fileset dir="src">
+          <include name="META-INF/**/*"/>
+       </fileset>
+    </copy>
+
     <!--
     <echo message="classpath: ${toString:classpath.base}"/>
     -->
-    <javac srcdir="src" destdir="${class.dir}" excludes="**/*Test*.java"> 
+    <javac srcdir="src" destdir="${class.dir}" excludes="**/*Test*.java" debuglevel="lines"> 
       <classpath>
          <path refid="classpath.base" />
       </classpath>
