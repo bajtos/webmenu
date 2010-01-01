@@ -1,8 +1,6 @@
+* create ViewModel from HTML
+* add links to HTML
 * cron job for regular update of MamHladHk menu
-* front-end
- - fetch menu from datastore
- - display menu in HTML
-* web design
 
 Later:
 * integrate analytics (Google Analytics?)

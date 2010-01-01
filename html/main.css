@@ -1,6 +1,140 @@
-
-table {
-   border: 1px solid black;
-   background-color: #f4f4f4;
+body {
+    background-color: gray;
+    margin: 0;
 }
 
+#page {
+   width: 1000px;
+   margin: 0 auto;
+   padding: 0;
+   background: white;
+}
+
+#logo, #header, #left-menu-bar, #content {
+   vertical-align: top;
+   display: inline-block;
+   padding: 0;
+   background-color: white;
+}
+
+#logo, #left-menu-bar {
+   width: 192px;
+   margin-left: 5px;
+   margin-right: 3px;
+}
+
+#header, #content {
+   width: 792px;
+   margin-left: 3px;
+   margin-right: 5px;
+}
+
+#logo, #header {
+   height: 80px;
+   margin-top: 5px;
+   margin-bottom: 3px;
+}
+
+#left-menu-bar, #content {
+   margin-top: 5px;
+   margin-bottom: 3px;
+}
+
+#left-menu-bar {
+   min-height: 250px;
+}
+
+#content {
+   min-height: 600px;
+}
+
+.rounded {
+   -moz-border-radius: 7px;
+}
+
+/****** logo ******/
+
+#logo div {
+   font-size: 20px;
+   font-weight: bold;
+   margin: 25px 15px 5px 5px;
+   padding: 10px 20px;
+}
+
+/****** left menu bar ******/
+
+#left-menu-bar ul {
+   margin: 0px 0px 0px 0px;
+   padding: 0px;
+   list-style-type:none;
+}
+
+#left-menu-bar li {
+   margin: 5px 10px 5px 5px;
+   padding: 10px 20px;
+   background-color: #FFB200;
+   -moz-border-radius: 7px;
+}
+
+li.selected {
+    font-style: italic;
+}
+
+li.disabled {
+    color: gray;
+}
+
+/****** header ******/
+
+#header div {
+   padding: 10px 20px;
+   height: 60px;
+   background-color: #FFB200;
+   text-align: center;
+}
+
+#header h3 {
+   margin: 5px 0px 5px 0px;
+   padding: 0;
+   font-size: 22px;
+}
+
+#header h4 {
+   margin: 0;
+   padding: 0;
+   font-size: 16px;
+   font-weight: normal;
+}
+
+/****** content ******/
+
+#content section {
+   display: block;
+}
+
+#content hr {
+   margin: 25px 0px 25px 0px;
+   padding: 1px;
+   border: none;
+   border-top: 1px dotted black;
+   width: 600px;
+   position: relative;
+   left: 100px;
+}
+
+#content h4 {
+   display: inline;
+   font-size: 110%;
+}
+
+#content table {
+   border: 1px solid black;
+   background-color: #f4f4f4;
+   margin: 3px 0px 3px 0px;
+}
+
+
+#content footer {
+   font-size: 80%;
+   font-style: italic;
+}
