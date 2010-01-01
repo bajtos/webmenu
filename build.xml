@@ -125,7 +125,7 @@
     <!--
     <echo message="classpath: ${toString:classpath.base}"/>
     -->
-    <javac srcdir="src" destdir="${class.dir}" excludes="**/*Test*.java" debuglevel="lines"> 
+    <javac srcdir="src" destdir="${class.dir}" excludes="**/*Test*.java" debug="true" debuglevel="lines,source,vars"> 
       <classpath>
          <path refid="classpath.base" />
       </classpath>

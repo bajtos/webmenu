@@ -46,6 +46,16 @@ public class OneDayMenu
         this.key = key;
     }
 
+    public void setSoupItems(List<SoupItem> items)
+    {
+        this.soupItems = items;
+    }
+
+    public void setMenuItems(List<MenuItem> items)
+    {
+        this.menuItems = items;
+    }
+
     public void update(OneDayMenu from)
     {
         if (!this.getDay().equals(from.getDay()))

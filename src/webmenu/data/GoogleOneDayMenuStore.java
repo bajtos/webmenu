@@ -1,6 +1,6 @@
 package webmenu.data;
 
-import java.util.Date;
+import java.util.*;
 import java.util.logging.Logger;
 import java.text.SimpleDateFormat;
 import javax.jdo.*;
@@ -8,7 +8,7 @@ import javax.jdo.*;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-import webmenu.model.OneDayMenu;
+import webmenu.model.*;
 
 /// Implementation of OneDayMenuStore using Google data-store API
 public class GoogleOneDayMenuStore implements OneDayMenuStore
@@ -86,7 +86,8 @@ public class GoogleOneDayMenuStore implements OneDayMenuStore
        {
           OneDayMenu menu = pm.getObjectById(OneDayMenu.class, key);
           OneDayMenu copy = pm.detachCopy(menu);
-          log.fine("[copy] soups: " + copy.getSoupItems() + " meals: " + copy.getMenuItems());
+          copy.setSoupItems((List<SoupItem>)pm.detachCopyAll(menu.getSoupItems()));
+          copy.setMenuItems((List<MenuItem>)pm.detachCopyAll(menu.getMenuItems()));
           return copy;
        }
        catch (JDOObjectNotFoundException e)
