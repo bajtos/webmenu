@@ -71,6 +71,7 @@
       <fileset dir="src/WEB-INF">
         <include name="web.xml"/>
         <include name="datastore-indexes.xml"/>
+        <include name="cron.xml"/>
       </fileset>
       <fileset dir="src">
         <include name="logging.properties"/>

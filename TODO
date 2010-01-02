@@ -1,7 +1,8 @@
-* cron job for regular update of MamHladHk menu
+* integrate analytics (Google Analytics?)
+* support If-Modified-Since
+* don't update datastore entries if the menu webpage was not changed
 
 Later:
-* integrate analytics (Google Analytics?)
 * add links to HTML
 * add /about.html
   - requires refactoring of JSP pages & CSS styles
