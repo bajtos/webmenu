@@ -12,7 +12,6 @@
 <head>
    <title>Rozvoz jídla - <%= location %> - Chci Oběd!</title>
    <link href="/styles/main.css" rel="stylesheet" type="text/css" />
-   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
 <body>
    <div id="page">
