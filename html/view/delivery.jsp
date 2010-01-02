@@ -11,29 +11,26 @@
 <html>
 <head>
    <title>Rozvoz jídla - <%= location %> - Chci Oběd!</title>
-   <link href="/main.css" rel="stylesheet" type="text/css" />
+   <link href="/styles/main.css" rel="stylesheet" type="text/css" />
    <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
 <body>
    <div id="page">
       <div id="logo">
-         <div>Chci Oběd!</div>
+         <div class="rounded">
+            <div>Chci Oběd!</div>
+         </div>
       </div><div id="header">
          <div class="rounded">
             <h3><%= location %></h3>
-            <h4>Denní menu pro den <%= today.getDate() %>.<%= today.getMonth()+1 %>.<%= today.getYear() + 1900 %></h4>
+            <h4>Rozvoz jídla <%= today.getDate() %>.<%= today.getMonth()+1 %>.<%= today.getYear() + 1900 %></h4>
          </div>
-      </div><div id="left-menu-bar">
-         <ul>
-            <li class="selected rounded">Rozvoz</li>
-            <li class="disabled rounded">Restaurace</li>
-         </ul>
       </div><div id="content">
 
       <% menu = model.getMenu(Restaurants.MAM_HLAD_HK); %>
       <section>
          <header>
-            <h4>MámHladvHK.cz</h4> 
+            <h4>MámHladvHK</h4> 
             (<span class="telefon">Telefon: 773 452 345</span>&nbsp;-&nbsp;
             <a href="http://www.mamhladvhk.cz/tydenni-menu.php">menu</a>&nbsp;-&nbsp;
             <a href="http://www.mamhladvhk.cz/info-o-rozvozu.php">kontakt</a>)

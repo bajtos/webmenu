@@ -4,7 +4,7 @@ body {
 }
 
 #page {
-   width: 1000px;
+   width: 800px;
    margin: 0 auto;
    padding: 0;
    background: white;
@@ -17,14 +17,14 @@ body {
    background-color: white;
 }
 
-#logo, #left-menu-bar {
+#logo {
    width: 192px;
    margin-left: 5px;
    margin-right: 3px;
 }
 
-#header, #content {
-   width: 792px;
+#header {
+   width: 592px;
    margin-left: 3px;
    margin-right: 5px;
 }
@@ -35,17 +35,16 @@ body {
    margin-bottom: 3px;
 }
 
-#left-menu-bar, #content {
+#content {
    margin-top: 5px;
    margin-bottom: 3px;
 }
 
-#left-menu-bar {
-   min-height: 250px;
-}
-
 #content {
    min-height: 600px;
+   margin-left: 5px;
+   margin-right: 5px;
+   width: 790px;
 }
 
 .rounded {
@@ -55,33 +54,18 @@ body {
 /****** logo ******/
 
 #logo div {
+   padding: 10px 0px;
+   height: 60px;
+   background-color: #ffa500;
+   display: table-cell;
+   vertical-align: middle;
+   width: 192px;
+}
+
+#logo div div {
    font-size: 20px;
    font-weight: bold;
-   margin: 25px 15px 5px 5px;
-   padding: 10px 20px;
-}
-
-/****** left menu bar ******/
-
-#left-menu-bar ul {
-   margin: 0px 0px 0px 0px;
-   padding: 0px;
-   list-style-type:none;
-}
-
-#left-menu-bar li {
-   margin: 5px 10px 5px 5px;
-   padding: 10px 20px;
-   background-color: #FFB200;
-   -moz-border-radius: 7px;
-}
-
-li.selected {
-    font-style: italic;
-}
-
-li.disabled {
-    color: gray;
+   text-align: center;
 }
 
 /****** header ******/
@@ -89,8 +73,8 @@ li.disabled {
 #header div {
    padding: 10px 20px;
    height: 60px;
-   background-color: #FFB200;
-   text-align: center;
+   background-color: #ffa500;
+   text-align: left;
 }
 
 #header h3 {
@@ -110,10 +94,11 @@ li.disabled {
 
 #content section {
    display: block;
+   margin: 10px;
 }
 
 #content hr {
-   margin: 25px 0px 25px 0px;
+   margin: 15px 0px 15px 0px;
    padding: 1px;
    border: none;
    border-top: 1px dotted black;
