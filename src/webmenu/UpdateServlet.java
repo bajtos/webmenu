@@ -1,10 +1,15 @@
 package webmenu; 
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.*;
+import java.util.logging.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 import webmenu.crawler.*;
 import webmenu.data.Restaurants;
@@ -17,8 +22,13 @@ public class UpdateServlet extends HttpServlet {
 		String path = req.getPathInfo();
         Crawler crawler;
 
-        if (path.equals("/" + Restaurants.MAM_HLAD_HK)) {
+        if (("/" + Restaurants.MAM_HLAD_HK).equals(path)) {
             crawler = new MamHladHkCrawler();
+        } else if ("/send-test-email".equals(path)) {
+            sendEmailNotification("test email\n" + ExceptionUtils.getFullStackTrace(new Exception("test")));
+            resp.setContentType("text/plain");
+            resp.getWriter().println("sent");
+            return;
         } else {
             log.warning("Unknown restaurant '" + path + "'.");
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -34,7 +44,29 @@ public class UpdateServlet extends HttpServlet {
             resp.getWriter().println("OK");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Update failed", e);
+            sendEmailNotification("Update failed:\n" + ExceptionUtils.getFullStackTrace(e));
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 	}
+
+    public void sendEmailNotification(String bodyText)
+    {
+        try {
+            Session session = Session.getDefaultInstance(new Properties(), null);
+            Message msg = new MimeMessage(session);
+
+            msg.setFrom(new InternetAddress("mirco.sk@gmail.com", "chci-obed update"));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress("mirco.sk@gmail.com"));
+            msg.setSubject("chci-obed update problem");
+            msg.setText(bodyText);
+
+            Transport.send(msg);
+        } catch (AddressException e) {
+            log.log(Level.SEVERE, "Cannot send e-mail", e);
+        } catch (MessagingException e) {
+            log.log(Level.SEVERE, "Cannot send e-mail", e);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, "Cannot send e-mail", e);
+        }
+    }
 }

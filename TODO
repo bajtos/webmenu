@@ -1,9 +1,10 @@
-* add links to HTML
 * cron job for regular update of MamHladHk menu
 
 Later:
 * integrate analytics (Google Analytics?)
-
+* add links to HTML
+* add /about.html
+  - requires refactoring of JSP pages & CSS styles
 
 Next versions:
 * Forum via twitter? (Find tweets containing a special short url, that points to our website).
