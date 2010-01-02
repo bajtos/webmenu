@@ -8,6 +8,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 
 import webmenu.data.*;
+import webmenu.viewmodel.DeliveryViewModel;
 
 /// A temporary servlet implementing all functionality.
 /// TODO: refactor it to MVC.
@@ -78,9 +79,7 @@ public class MainServlet extends HttpServlet {
       log.fine("serving delivery view");
 
       Date today = day.getTime();
-
-      req.setAttribute("webmenu:location", "Hradec Králové");
-      req.setAttribute("webmenu:today", today);
+      DeliveryViewModel model = new DeliveryViewModel("Hradec Králové", today);
 
       OneDayMenuStore store = createMenuStore();
 
@@ -88,8 +87,9 @@ public class MainServlet extends HttpServlet {
           Restaurants.MAM_HLAD_HK 
       };
       for (String r : restaurants)
-          req.setAttribute(Restaurants.getAttributeName(r), store.getOneDayMenu(r, today));
+          model.setMenu(r, store.getOneDayMenu(r, today));
 
+      model.set(req);
       view(req, resp, "delivery");
    }
 

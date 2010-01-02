@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="webmenu.data.Restaurants, webmenu.model.*" %>
+<%@ page import="webmenu.data.Restaurants, webmenu.model.*, webmenu.viewmodel.DeliveryViewModel" %>
 <%
-   String location = (String)request.getAttribute("webmenu:location");
-   Date today = (Date)request.getAttribute("webmenu:today");
+   DeliveryViewModel model = DeliveryViewModel.get(request);
+   String location = model.getLocation();
+   Date today = model.getDate();
    OneDayMenu menu;
 %>
 <!DOCTYPE html>
@@ -28,7 +29,7 @@
          </ul>
       </div><div id="content">
 
-      <% menu = (OneDayMenu)request.getAttribute(Restaurants.getAttributeName(Restaurants.MAM_HLAD_HK)); %>
+      <% menu = model.getMenu(Restaurants.MAM_HLAD_HK); %>
       <section>
          <header>
             <h4>MámHladvHK.cz</h4> 
