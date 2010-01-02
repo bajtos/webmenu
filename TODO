@@ -1,4 +1,3 @@
-* integrate analytics (Google Analytics?)
 * support If-Modified-Since
 * don't update datastore entries if the menu webpage was not changed
 

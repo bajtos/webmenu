@@ -66,6 +66,8 @@
       </section>
       */ %>
    </div> <!-- content -->
+<!-- Google Analytics -->
+<jsp:include page="analytics.html"/>  
 </body>
 </html>
 
