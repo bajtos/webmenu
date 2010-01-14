@@ -36,7 +36,7 @@
          </header>
          <table width="100%">
          <% if (menu == null) { %>
-            <tr><td>Dnes nevaříme.</td></tr>
+            <tr><td>Dnes nevaříme (nebo menu pro dnešní den není k dispozici).</td></tr>
          <% } else { %>
             <% for (SoupItem soup : menu.getSoupItems()) { %>
                <tr><td colspan="2"><%= soup.getName() %>: <%= soup.getMeal() %></td></tr>
@@ -46,7 +46,10 @@
             <% } %>
          <% } %>
       </table>
-      <footer>Uvedené ceny jsou pouze orientační, doporučujeme je zkontrolovat před objednáním.</footer>
+      <footer>
+        Uvedené ceny jsou pouze orientační, doporučujeme je zkontrolovat před objednáním.<br/>
+        Pro dovezení jídla je nutné objednat alespoň dvě porce (menu).
+      </footer>
       </section>
 
       <% /* TODO
