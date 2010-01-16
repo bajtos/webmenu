@@ -36,7 +36,9 @@
          </header>
          <table width="100%">
          <% if (menu == null) { %>
-            <tr><td>Dnes nevaříme (nebo menu pro dnešní den není k dispozici).</td></tr>
+            <tr><td>Menu pro dnešní den není k dispozici.</td></tr>
+         <% } else if (menu.isEmpty()) { %>
+            <tr><td>Dnes nevaříme.</td></tr>
          <% } else { %>
             <% for (SoupItem soup : menu.getSoupItems()) { %>
                <tr><td colspan="2"><%= soup.getName() %>: <%= soup.getMeal() %></td></tr>

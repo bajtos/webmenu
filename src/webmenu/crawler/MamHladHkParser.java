@@ -201,15 +201,17 @@ public class MamHladHkParser implements Parser
             if (days.size() != 5)
                 log.warning("There is menu for " + days.size() + " days.");
 
-            List<OneDayMenu> retval = new LinkedList<OneDayMenu>();
+            OneDayMenu[] retval = new OneDayMenu[days.size()];
 
-            for (int d=0; d<5; d++, start.add(Calendar.DAY_OF_MONTH, 1))
+            for (int d=0; d<days.size(); d++, start.add(Calendar.DAY_OF_MONTH, 1))
             {
-                if (d >= days.size())
-                    break;
-
                 String[] names = parseDay(days.get(d));
-                if (names == null) continue;
+
+                if (names == null)
+                { 
+                    retval[d] = new OneDayMenu(start.getTime(), null, null);
+                    continue;
+                }
 
                 List<SoupItem> soups = new ArrayList<SoupItem>(1);
                 soups.add(new SoupItem("Polévka", names[0]));
@@ -222,10 +224,10 @@ public class MamHladHkParser implements Parser
                 if (names[3] != null)
                     meals.add(new MenuItem("Menu 3", names[3], prices[2]));
 
-                retval.add(new OneDayMenu(start.getTime(), soups, meals));
+                retval[d] = new OneDayMenu(start.getTime(), soups, meals);
             }
 
-            return retval.toArray(new OneDayMenu[0]);
+            return retval;
         }
         catch (XPathException e)
         {

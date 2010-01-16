@@ -66,6 +66,11 @@ public class OneDayMenu
         this.menuItems = from.getMenuItems();
     }
 
+    public boolean isEmpty()
+    {
+        return soupItems == null && menuItems == null;
+    }
+
     public OneDayMenu(Date day, List<SoupItem> soups, List<MenuItem> meals)
     {
         this.day = day;

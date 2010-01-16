@@ -42,19 +42,29 @@ public class MamHladHkParserTest
         return builder.build(source);
     }
     
-    @Test public void Parse_ShortHtml_ReturnsFourItems() throws CrawlException, IOException
+    @Test public void Parse_ShortHtml_ReturnsFourSetAndOneEmptyItems() throws CrawlException, IOException
     {
         InputStream html = getShortMenuStream();
         OneDayMenu[] menus = parser.parse(html);
 
-        assertEquals(4, menus.length);
+        assertFalse(menus[0].isEmpty());
+        assertTrue(menus[1].isEmpty());
+        assertFalse(menus[2].isEmpty());
+        assertFalse(menus[3].isEmpty());
+        assertFalse(menus[4].isEmpty());
+        assertEquals(5, menus.length);
     }
 
-    @Test public void Parse_TwoMealsHtml_ReturnsThreeItems() throws CrawlException, IOException
+    @Test public void Parse_TwoMealsHtml_ReturnsThreeSetAndTwoEmptyItems() throws CrawlException, IOException
     {
         InputStream html = getTwoMealsMenuStream();
         OneDayMenu[] menus = parser.parse(html);
-        assertEquals(3, menus.length);
+        assertEquals(5, menus.length);
+        assertFalse(menus[0].isEmpty());
+        assertFalse(menus[1].isEmpty());
+        assertFalse(menus[2].isEmpty());
+        assertTrue(menus[3].isEmpty());
+        assertTrue(menus[4].isEmpty());
     }
 
     @Test public void ParsePrices_ShortHtml_ReturnsCorrectPrices() throws CrawlException, IOException, ParsingException
@@ -168,9 +178,11 @@ public class MamHladHkParserTest
         assertThat(menuItems.get(2).getPrice(), equalTo(85));
 
         // tuesday was skipped
-        // verify that the second menu has correct date
-        OneDayMenu m2 = menus[1];
-        assertEquals(new GregorianCalendar(2009, 11-1, 18).getTime(), menus[1].getDay());
+        assertTrue(menus[1].isEmpty());
+        assertEquals(new GregorianCalendar(2009, 11-1, 17).getTime(), menus[1].getDay());
+
+        // verify that the third menu has correct date
+        assertEquals(new GregorianCalendar(2009, 11-1, 18).getTime(), menus[2].getDay());
     }
 
     @Test public void Parse_TwoMealsHtml_MenuItemsAreCorrect() throws CrawlException, IOException
