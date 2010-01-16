@@ -16,7 +16,7 @@ public class SportCafeParser implements Parser {
 
     private static final Logger log = Logger.getLogger(SportCafeParser.class.getName());
 
-    final static Pattern DayNamePattern = Pattern.compile("^sport-cafe-menu_files/([^/]+).png$");
+    final static Pattern DayNamePattern = Pattern.compile("^images/menu_pro_tento_tyden/([^/]+).png$");
     final static Pattern MealNamePattern = Pattern.compile("^\\d+\\)\\s+(.*[^,])[,]?$");
     final static Pattern PricePattern = Pattern.compile("^(\\d+),-$");
 
