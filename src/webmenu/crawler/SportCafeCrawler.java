@@ -2,14 +2,15 @@ package webmenu.crawler;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import java.util.logging.Logger;
 
 import webmenu.model.*;
 import webmenu.data.*;
 
-public class MamHladHkCrawler implements Crawler
+public class SportCafeCrawler implements Crawler
 {
-    private static final Logger log = Logger.getLogger(MamHladHkCrawler.class.getName());
+    private static final Logger log = Logger.getLogger(SportCafeCrawler.class.getName());
 
     protected UrlFetcher createFetcher()
     {
@@ -18,7 +19,7 @@ public class MamHladHkCrawler implements Crawler
 
     protected Parser createParser()
     {
-        return new MamHladHkParser();
+        return new SportCafeParser();
     }
 
     protected OneDayMenuStore createStore()
@@ -28,15 +29,21 @@ public class MamHladHkCrawler implements Crawler
 
     public void update(URL url) throws MalformedURLException, IOException, CrawlException
     {
-        if (url == null) url = new URL("http://www.mamhladvhk.cz/tydenni-menu.php");
+        if (url == null) url = new URL("http://www.sport-cafe.cz/menu.php");
         log.fine("Using url '" + url + "'");
 
         InputStream webpage = createFetcher().fetch(url);
         OneDayMenu[] data = createParser().parse(webpage);
         OneDayMenuStore store = createStore();
+
+        Calendar now = Calendar.getInstance();
+        Calendar today = new GregorianCalendar(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+
         for (OneDayMenu menu : data)
         {
-            store.updateOneDayMenu(Restaurants.MAM_HLAD_HK, menu);
+            if (menu.getDay().before(today.getTime()))
+                continue;
+            store.updateOneDayMenu(Restaurants.SPORT_CAFE_HK, menu);
         }
     }
 }
