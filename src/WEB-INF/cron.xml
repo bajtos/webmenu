@@ -6,4 +6,10 @@
       <schedule>every day 08:30</schedule>
       <timezone>Europe/Prague</timezone>
    </cron>
+   <cron>
+      <url>/admin/update/sport-cafe-hk</url>
+      <description>Update menu for "Sport Cafe HK"</description>
+      <schedule>every day 08:30</schedule>
+      <timezone>Europe/Prague</timezone>
+   </cron>
 </cronentries>
