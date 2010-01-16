@@ -24,6 +24,8 @@ public class UpdateServlet extends HttpServlet {
 
         if (("/" + Restaurants.MAM_HLAD_HK).equals(path)) {
             crawler = new MamHladHkCrawler();
+        } else if (("/" + Restaurants.SPORT_CAFE_HK).equals(path)) {
+            crawler = new SportCafeCrawler();
         } else if ("/send-test-email".equals(path)) {
             sendEmailNotification("test email\n" + ExceptionUtils.getFullStackTrace(new Exception("test")));
             resp.setContentType("text/plain");

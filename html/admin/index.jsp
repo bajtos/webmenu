@@ -9,6 +9,7 @@
    <h3>Spustit aktualizaci</h3>
    <ul>
       <li><a href="update/mam-hlad-hk">MamHladHk</a></li>
+      <li><a href="update/sport-cafe-hk">Sport Cafe (HK)</a></li>
    </ul>
 </body>
 </html>
