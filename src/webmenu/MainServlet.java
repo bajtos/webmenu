@@ -84,7 +84,8 @@ public class MainServlet extends HttpServlet {
       OneDayMenuStore store = createMenuStore();
 
       String[] restaurants = new String[] {
-          Restaurants.MAM_HLAD_HK 
+          Restaurants.MAM_HLAD_HK,
+          Restaurants.SPORT_CAFE_HK,
       };
       for (String r : restaurants)
           model.setMenu(r, store.getOneDayMenu(r, today));
