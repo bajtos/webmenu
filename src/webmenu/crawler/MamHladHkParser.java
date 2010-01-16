@@ -8,6 +8,7 @@ import nu.validator.htmlparser.common.*;
 import nu.validator.htmlparser.xom.*;
 import nu.xom.*;
 import webmenu.model.*;
+import static webmenu.crawler.ParserUtil.normalizeText;
 
 public class MamHladHkParser implements Parser
 {
@@ -130,7 +131,7 @@ public class MamHladHkParser implements Parser
         }
 
         if (!(menuPara.getChild(0) instanceof Element 
-                    && menuPara.getChild(0).getValue().trim().equals("Polévka:") 
+                    && normalizeText(menuPara.getChild(0).getValue()).equals("Polévka:") 
                     && menuPara.getChild(1) instanceof Text))
         {
             log.warning("Skipping menu node without soup:\n" + menuPara.toXML());
@@ -138,7 +139,7 @@ public class MamHladHkParser implements Parser
         }
 
         String[] meals = new String[4];
-        meals[0] = menuPara.getChild(1).getValue().trim();
+        meals[0] = normalizeText(menuPara.getChild(1).getValue());
         log.fine("\tsoup: " + meals[0]);
 
         for (int ix=1; ix<=3; ix++)
@@ -182,7 +183,7 @@ public class MamHladHkParser implements Parser
                 continue;
             }
 
-            meals[menuIndex] = nodes.get(0).getValue().trim();
+            meals[menuIndex] = normalizeText(nodes.get(0).getValue());
             log.fine("\tMenu " + menuIndex + ": " + meals[menuIndex]);
         }
 
