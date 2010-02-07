@@ -125,10 +125,19 @@ ul.daylist {
    font-size: 110%;
 }
 
-#content table {
+table.menu {
    border: 1px solid black;
    background-color: #f4f4f4;
    margin: 3px 0px 3px 0px;
+}
+
+table.menu td.text {
+}
+
+table.menu td.price {
+   text-align: right;
+   vertical-align: top;
+   width: 4em;
 }
 
 #content footer {

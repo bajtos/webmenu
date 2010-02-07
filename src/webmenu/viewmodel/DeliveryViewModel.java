@@ -9,7 +9,7 @@ import webmenu.model.OneDayMenu;
 public class DeliveryViewModel
 {
     private final static String requestAttributeName = DeliveryViewModel.class.getName();
-    private Map<String, OneDayMenu> menuMap;
+    private Map<String, DayMenuViewModel> menuMap;
     private String urlPrefix;
     private Calendar date;
     private String locationName;
@@ -24,7 +24,7 @@ public class DeliveryViewModel
         return locationName;
     }
 
-    public OneDayMenu getMenu(String restaurant)
+    public DayMenuViewModel getMenu(String restaurant)
     {
         return menuMap.get(restaurant);
     }
@@ -70,7 +70,7 @@ public class DeliveryViewModel
         request.setAttribute(requestAttributeName, this);
     }
 
-    public void setMenu(String restaurant, OneDayMenu menu)
+    public void setMenu(String restaurant, DayMenuViewModel menu)
     {
         menuMap.put(restaurant, menu);
     }
@@ -80,6 +80,6 @@ public class DeliveryViewModel
         this.date = date;
         this.locationName = locationName;
         this.urlPrefix = urlPrefix;
-        menuMap = new HashMap<String, OneDayMenu>();
+        menuMap = new HashMap<String, DayMenuViewModel>();
     }
 }
