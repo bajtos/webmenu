@@ -78,8 +78,7 @@ public class MainServlet extends HttpServlet {
    void doList(HttpServletRequest req, HttpServletResponse resp, Calendar day) throws ServletException, IOException {
       log.fine("serving delivery view");
 
-      Date today = day.getTime();
-      DeliveryViewModel model = new DeliveryViewModel("Hradec Králové", today);
+      DeliveryViewModel model = new DeliveryViewModel(req.getServletPath() + "/hradec-kralove/rozvoz", "Hradec Králové", day);
 
       OneDayMenuStore store = createMenuStore();
 
@@ -88,7 +87,7 @@ public class MainServlet extends HttpServlet {
           Restaurants.SPORT_CAFE_HK,
       };
       for (String r : restaurants)
-          model.setMenu(r, store.getOneDayMenu(r, today));
+          model.setMenu(r, store.getOneDayMenu(r, day.getTime()));
 
       model.set(req);
       view(req, resp, "delivery");

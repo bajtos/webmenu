@@ -1,6 +1,7 @@
 package webmenu.viewmodel;
 
 import java.util.*;
+import java.text.*;
 import javax.servlet.ServletRequest;
 
 import webmenu.model.OneDayMenu;
@@ -9,22 +10,31 @@ public class DeliveryViewModel
 {
     private final static String requestAttributeName = DeliveryViewModel.class.getName();
     private Map<String, OneDayMenu> menuMap;
-    private Date date;
-    private String location;
+    private String urlPrefix;
+    private Calendar date;
+    private String locationName;
 
     public Date getDate()
     {
-        return date;
+        return date.getTime();
     }
 
-    public String getLocation()
+    public String getLocationName()
     {
-        return location;
+        return locationName;
     }
 
     public OneDayMenu getMenu(String restaurant)
     {
         return menuMap.get(restaurant);
+    }
+
+    public String getDayUrl(int dayOfWeek)
+    {
+        Calendar day = (Calendar)date.clone();
+        day.getTime(); // from some strange reasons we have to call this so that the calendar updates its internal state
+        day.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        return MessageFormat.format("{0}/{1,date,yyyy/MM/dd}", urlPrefix, day.getTime());
     }
 
     public static DeliveryViewModel get(ServletRequest request)
@@ -42,10 +52,11 @@ public class DeliveryViewModel
         menuMap.put(restaurant, menu);
     }
 
-    public DeliveryViewModel(String location, Date date)
+    public DeliveryViewModel(String urlPrefix, String locationName, Calendar date)
     {
         this.date = date;
-        this.location = location;
+        this.locationName = locationName;
+        this.urlPrefix = urlPrefix;
         menuMap = new HashMap<String, OneDayMenu>();
     }
 }

@@ -1,96 +1,107 @@
 body {
-    background-color: gray;
-    margin: 0;
+/*    background-color: #FFD2A3; */
+   background: white url("/images/hamburger.png") left 40px no-repeat;
+   margin: 0;
+   font-family: "Helvetica", "Arial", sans-serif;
 }
 
-#page {
-   width: 800px;
+#logo, #page, #footer {
+   position: relative;
+   left: 0; right: 0;
    margin: 0 auto;
-   padding: 0;
-   background: white;
-}
-
-#logo, #header, #left-menu-bar, #content {
-   vertical-align: top;
-   display: inline-block;
-   padding: 0;
-   background-color: white;
+   padding: 15px;
+   width: 750px;
 }
 
 #logo {
-   width: 192px;
-   margin-left: 5px;
-   margin-right: 3px;
+   top: 0px;
+   padding-left: 0px;
 }
 
-#header {
-   width: 592px;
-   margin-left: 3px;
-   margin-right: 5px;
+#logo h1 {
+   margin: 0;
+   padding: 0;
+   line-height: 60px;
+   font-size: 230%;
+   font-weight: bold;
 }
 
-#logo, #header {
-   height: 80px;
-   margin-top: 5px;
-   margin-bottom: 3px;
+#logo h1 a {
+   text-decoration: none;
 }
 
-#content {
-   margin-top: 5px;
-   margin-bottom: 3px;
+#page {
+   top: 0px;
+   background: #EFDD98;
 }
 
-#content {
-   min-height: 600px;
-   margin-left: 5px;
-   margin-right: 5px;
-   width: 790px;
+#footer {
+   top: 10px;
+   background: #EFDD98;
+   padding-top: 5px;
+   padding-bottom: 5px;
 }
+
+#footer span {
+   font-size: 70%;
+}
+
 
 .rounded {
-   -moz-border-radius: 7px;
+   -moz-border-radius: 20px;
 }
 
-/****** logo ******/
-
-#logo div {
-   padding: 10px 0px;
-   height: 60px;
-   background-color: #ffa500;
-   display: table-cell;
-   vertical-align: middle;
-   width: 192px;
+a:link, a:visited {
+   color: black;
 }
 
-#logo div div {
-   font-size: 20px;
+/****** content ******/
+
+#content {
+   position: relative;
+   left: 10px;
+   width: 580px;
+   margin: 0;
+}
+
+
+#sidebar {
+   position: absolute;
+   top: 30px;
+   bottom: 30px;
+   right: 20px;
+   width: 130px;
+}
+
+.daylist {
+   background-color: #f4f4f4;
+   padding: 20px;
+}
+
+ul.daylist {
+   list-style-type: none;
+}
+
+#content h1 {
+   margin: 10px 0 5px 0;
+   font-size: 150%;
    font-weight: bold;
    text-align: center;
 }
 
-/****** header ******/
-
-#header div {
-   padding: 10px 20px;
-   height: 60px;
-   background-color: #ffa500;
-   text-align: left;
+#content h2 {
+   margin: 5px 0 5px 0;
+   font-size: 100%;
+   font-weight: normal;
+   text-align: center;
 }
 
-#header h3 {
-   margin: 5px 0px 5px 0px;
-   padding: 0;
-   font-size: 22px;
-}
-
-#header h4 {
+.spacer {
    margin: 0;
    padding: 0;
-   font-size: 16px;
-   font-weight: normal;
+   height: 20px;
 }
 
-/****** content ******/
 
 #content section {
    display: block;
@@ -98,13 +109,11 @@ body {
 }
 
 #content hr {
-   margin: 15px 0px 15px 0px;
+   margin: 15px auto;
    padding: 1px;
    border: none;
    border-top: 1px dotted black;
-   width: 600px;
-   position: relative;
-   left: 100px;
+   width: 400px;
 }
 
 #content h4 {
@@ -118,8 +127,7 @@ body {
    margin: 3px 0px 3px 0px;
 }
 
-
 #content footer {
-   font-size: 80%;
+   font-size: 70%;
    font-style: italic;
 }
