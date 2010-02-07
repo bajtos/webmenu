@@ -12,6 +12,7 @@
 <head>
    <title>Rozvoz jídla - <%= location %> - Chci Oběd!</title>
    <link href="/styles/main.css" rel="stylesheet" type="text/css" />
+   <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
    <div id="logo">
