@@ -1,11 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*, java.text.*" %>
 <%@ page import="webmenu.data.Restaurants, webmenu.model.*, webmenu.viewmodel.DeliveryViewModel" %>
 <%
    DeliveryViewModel model = DeliveryViewModel.get(request);
    String location = model.getLocationName();
-   Date today = model.getDate();
+   Date today = model.getDate().getTime();
    OneDayMenu menu;
+   String todayString = MessageFormat.format("{0} {1,date,d.M.yyyy}", model.getDayName(model.getDate().get(Calendar.DAY_OF_WEEK)), today);
 %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +22,8 @@
    <div id="page" class="rounded">
       <div id="content">
          <h1 class="title"><%= location %></h1>
-         <h2 class="title">Rozvoz jídla - <!-- pondělí --><%= today.getDate() %>.<%= today.getMonth()+1 %>.<%= today.getYear() + 1900 %></h2>
+         <h2 class="title">Rozvoz jídla - <%= todayString %>
+         </h2>
          <div class="spacer"></div>
 
          <% menu = model.getMenu(Restaurants.MAM_HLAD_HK); %>
@@ -85,11 +87,16 @@
       </div> <!-- content -->
       <div id="sidebar">
          <ul class="daylist rounded">
-            <li>&#xBB; <a href="<%= model.getDayUrl(Calendar.MONDAY) %>">pondělí</a></li>
-            <li>&#xBB; <a href="<%= model.getDayUrl(Calendar.TUESDAY) %>">úterý</a></li>
-            <li>&#xBB; <a href="<%= model.getDayUrl(Calendar.WEDNESDAY) %>">středa</a></li>
-            <li>&#xBB; <a href="<%= model.getDayUrl(Calendar.THURSDAY) %>">čtvrtek</a></li>
-            <li>&#xBB; <a href="<%= model.getDayUrl(Calendar.FRIDAY) %>">pátek</a></li>
+            <% int[] days = { Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY };
+            for (int day : days) {
+               %><li>&#xBB;&nbsp;<%
+               if (day == model.getDate().get(Calendar.DAY_OF_WEEK)) {
+               %><span class="today"><%= model.getDayName(day) %></span> <%
+               } else { 
+               %><a href="<%= model.getDayUrl(day) %>"><%= model.getDayName(day) %></a><%
+               } 
+               %></li>
+            <% } %>
          </ul>
       </div> <!-- sidebar -->
 

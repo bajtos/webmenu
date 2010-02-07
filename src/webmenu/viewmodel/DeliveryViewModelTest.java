@@ -21,7 +21,7 @@ public class DeliveryViewModelTest
        assertEquals("/prefix/2010/02/03", model.getDayUrl(Calendar.WEDNESDAY));
        assertEquals("/prefix/2010/02/04", model.getDayUrl(Calendar.THURSDAY));
        assertEquals("/prefix/2010/02/05", model.getDayUrl(Calendar.FRIDAY));
-       assertEquals(monday.getTime(), model.getDate());
+       assertEquals(monday.getTime(), model.getDate().getTime());
     }
 
     @Test public void GetDayUrl_TodayIsFriday_ReturnsCorrectUrls()
@@ -34,6 +34,5 @@ public class DeliveryViewModelTest
        assertEquals("/prefix/2010/02/03", model.getDayUrl(Calendar.WEDNESDAY));
        assertEquals("/prefix/2010/02/04", model.getDayUrl(Calendar.THURSDAY));
        assertEquals("/prefix/2010/02/05", model.getDayUrl(Calendar.FRIDAY));
-       assertEquals(friday.getTime(), model.getDate());
     }
 }

@@ -14,9 +14,9 @@ public class DeliveryViewModel
     private Calendar date;
     private String locationName;
 
-    public Date getDate()
+    public Calendar getDate()
     {
-        return date.getTime();
+        return date;
     }
 
     public String getLocationName()
@@ -35,6 +35,29 @@ public class DeliveryViewModel
         day.getTime(); // from some strange reasons we have to call this so that the calendar updates its internal state
         day.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         return MessageFormat.format("{0}/{1,date,yyyy/MM/dd}", urlPrefix, day.getTime());
+    }
+
+    public String getDayName(int dayOfWeek)
+    {
+        switch (dayOfWeek)
+        {
+            case Calendar.MONDAY:
+                return "pondělí";
+            case Calendar.TUESDAY:
+                return "úterý";
+            case Calendar.WEDNESDAY:
+                return "středa";
+            case Calendar.THURSDAY:
+                return "čtvrtek";
+            case Calendar.FRIDAY:
+                return "pátek";
+            case Calendar.SATURDAY:
+                return "sobota";
+            case Calendar.SUNDAY:
+                return "neděle";
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     public static DeliveryViewModel get(ServletRequest request)

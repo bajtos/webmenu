@@ -82,6 +82,10 @@ ul.daylist {
    list-style-type: none;
 }
 
+.daylist .today {
+   font-weight: bold;
+}
+
 #content h1 {
    margin: 10px 0 5px 0;
    font-size: 150%;
