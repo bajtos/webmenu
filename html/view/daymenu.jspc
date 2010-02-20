@@ -14,20 +14,20 @@
          --></div>
    </div>
 
-   <table class="menu">
+   <div class="menu"><table class="menu">
       <% if (menu == null) { %>
       <tr><td class="text">Menu pro dnešní den není k dispozici.</td></tr>
       <% } else if (menu.isEmpty()) { %>
       <tr><td class="text">Dnes nevaříme.</td></tr>
       <% } else { %>
       <% for (SoupItem soup : menu.getSoupItems()) { %>
-      <tr><td class="name"><%= soup.getName() %></td><td class="text" colspan="2"><%= soup.getMeal() %></td></tr>
+      <tr><td class="name"><%= soup.getName() %></td><td class="text"><%= soup.getMeal() %></td><td class="price"></td></tr>
       <% } %>
       <% for (MenuItem item : menu.getMenuItems()) { %>
       <tr><td class="name"><%= item.getName() %></td><td class="text"><%= item.getMeal() %></td><td class="price"><%= item.getPrice() %> Kč</td></tr>
       <% } %>
       <% } %>
-   </table>
+   </table></div>
    
    <% if (menu != null && !menu.isEmpty()) { %>
    <div class="section-footer">
