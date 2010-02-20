@@ -5,31 +5,34 @@
    Restaurant restaurant = menuModel.getRestaurant();
    OneDayMenu menu = menuModel.getMenu();
 %>
-<section>
-   <header>
-      <h4><%= restaurant.getName() %></h4>
-      (<span class="phone">Telefon: <%= restaurant.getPhone() %></span>&nbsp;-&nbsp;
-      <a href="<%= restaurant.getMenuLink() %>">menu</a>&nbsp;-&nbsp;
-      <a href="<%= restaurant.getContactLink() %>">kontakt</a>)
-   </header>
+<div class="section">
+   <div class="section-header rounded">
+      <div class="header-left"><h4><%= restaurant.getName() %></h4></div>
+      <div class="header-right"><span class="phone">Telefon: <%= restaurant.getPhone().replaceAll(" ", "&nbsp;") %></span>&nbsp;&ndash;&nbsp;<!--
+         --><a href="<%= restaurant.getMenuLink() %>">menu</a>&nbsp;&ndash;&nbsp;<!--
+         --><a href="<%= restaurant.getContactLink() %>">kontakt</a><!--
+         --></div>
+   </div>
 
-   <table width="100%" class="menu">
+   <table class="menu">
       <% if (menu == null) { %>
-      <tr><td>Menu pro dnešní den není k dispozici.</td></tr>
+      <tr><td class="text">Menu pro dnešní den není k dispozici.</td></tr>
       <% } else if (menu.isEmpty()) { %>
-      <tr><td>Dnes nevaříme.</td></tr>
+      <tr><td class="text">Dnes nevaříme.</td></tr>
       <% } else { %>
       <% for (SoupItem soup : menu.getSoupItems()) { %>
-      <tr><td colspan="2" class="text"><%= soup.getName() %>: <%= soup.getMeal() %></td></tr>
+      <tr><td class="name"><%= soup.getName() %></td><td class="text" colspan="2"><%= soup.getMeal() %></td></tr>
       <% } %>
       <% for (MenuItem item : menu.getMenuItems()) { %>
-      <tr><td class="text"><%= item.getName() %>: <%= item.getMeal() %></td><td class="price"><%= item.getPrice() %>,- Kč</td></tr>
+      <tr><td class="name"><%= item.getName() %></td><td class="text"><%= item.getMeal() %></td><td class="price"><%= item.getPrice() %> Kč</td></tr>
       <% } %>
       <% } %>
    </table>
    
-   <footer>
+   <% if (menu != null && !menu.isEmpty()) { %>
+   <div class="section-footer">
       <%= StringUtils.join(restaurant.getDisclaimers(), "<br/>") %>
-   </footer>
-</section>
+   </div>
+   <% } %>
+</div>
 <%-- vi:filetype=jsp --%>

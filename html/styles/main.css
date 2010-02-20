@@ -107,9 +107,9 @@ ul.daylist {
 }
 
 
-#content section {
+#content .section {
    display: block;
-   margin: 10px;
+   margin: 20px 0;
 }
 
 #content hr {
@@ -120,15 +120,56 @@ ul.daylist {
    width: 400px;
 }
 
-#content h4 {
-   display: inline;
-   font-size: 110%;
+.section-header {
+   background-color: #f4f4f4;
+   padding: 15px 20px;
+   text-align: left;
+   display: block;
+   margin-bottom: 10px;
+}
+
+.section-header h4 {
+   font-size: 120%;
+   padding: 0px;
+   margin: 0px;
+}
+
+.header-left {
+   display: table-cell;
+   width: 210px;
+   padding-right: 10px;
+   vertical-align: middle;
+}
+
+.header-right {
+   display: table-cell;
+   padding-left: 10px;
+   width: 300px;
+   vertical-align: middle;
+}
+
+#content table.menu, .section-footer {
+   /* offset for rounded caption */
+   margin-left: 10px;
+   margin-right: 10px;
 }
 
 table.menu {
-   border: 1px solid black;
-   background-color: #f4f4f4;
-   margin: 3px 0px 3px 0px;
+   border-collapse: collapse;
+   margin-top: 10px;
+   margin-bottom: 10px;
+}
+
+
+table.menu td {
+   padding: 4px 2px;
+}
+
+table.menu td.name {
+   padding-left: 10px;
+   padding-right: 4px;
+   font-weight: bold;
+   vertical-align: top;
 }
 
 table.menu td.text {
@@ -136,11 +177,14 @@ table.menu td.text {
 
 table.menu td.price {
    text-align: right;
-   vertical-align: top;
+   vertical-align: bottom;
    width: 4em;
+   padding-right: 10px;
 }
 
-#content footer {
+.section-footer {
+   display: block;
    font-size: 70%;
    font-style: italic;
 }
+

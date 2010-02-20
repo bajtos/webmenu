@@ -22,8 +22,7 @@
    <div id="page" class="rounded">
       <div id="content">
          <h1 class="title"><%= location %></h1>
-         <h2 class="title">Rozvoz jídla - <%= todayString %>
-         </h2>
+         <h2 class="title">Rozvoz jídla - <%= todayString %></h2>
          <div class="spacer"></div>
 
          <%
