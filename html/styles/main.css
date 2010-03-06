@@ -138,13 +138,11 @@ ul.daylist {
 .header-left {
    display: table-cell;
    width: 200px;
-   padding-right: 10px;
    vertical-align: middle;
 }
 
 .header-right {
    display: table-cell;
-   padding-left: 10px;
    width: 300px;
    vertical-align: middle;
 }
