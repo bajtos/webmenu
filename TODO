@@ -1,8 +1,9 @@
+* make unique title for different days
 * support If-Modified-Since
 * don't update datastore entries if the menu webpage was not changed
 
+
 Later:
-* add links to HTML
 * add /about.html
   - requires refactoring of JSP pages & CSS styles
 

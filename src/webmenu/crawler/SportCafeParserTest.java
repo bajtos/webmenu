@@ -95,7 +95,7 @@ public class SportCafeParserTest {
         MenuItem item = parser.parseMenuItem(node, 0);
         assertEquals("Menu 1", item.getName());
         assertEquals("Smažený sýr po pastýřsku (sýr eidam, šunka), smažené hranolky, tatarská omáčka", item.getMeal());
-        assertEquals(70, item.getPrice());
+        assertEquals(70 + 8, item.getPrice());
     }
 
     @Test public void parseMenuItem_MenuItemWithTrailingComma_ReturnsCorrectMenuItem() throws CrawlException, IOException, ParsingException {
@@ -103,14 +103,14 @@ public class SportCafeParserTest {
         MenuItem item = parser.parseMenuItem(node, 3);
         assertEquals("Menu 4", item.getName());
         assertEquals("Krůtí špíz ,,KARIBIK? (krůtí marinované maso,šunka,čerstvý ananas) podlitý sýrovou omáčkou", item.getMeal());
-        assertEquals(90, item.getPrice());
+        assertEquals(90 + 8, item.getPrice());
     }
     @Test public void parseMenuItem_ShortHtmlDayOneItemFive_ReturnsCorrectMenuItem() throws CrawlException, IOException, ParsingException {
         Node node = extractDay(0, getShortMenuStream());
         MenuItem item = parser.parseMenuItem(node, 4);
         assertEquals("Menu 5", item.getName());
         assertEquals("Pizza ,,Bacon? (tomatový základ, sýr, anglická slanina, kukuřice)", item.getMeal());
-        assertEquals(99, item.getPrice());
+        assertEquals(99 + 8, item.getPrice());
     }
 
     @Test public void parse_ShortHtml_ReturnsCorrectMenus() throws CrawlException, IOException, ParsingException {
@@ -134,23 +134,23 @@ public class SportCafeParserTest {
 
         assertThat(menuItems.get(0).getName(), equalTo("Menu 1"));
         assertThat(menuItems.get(0).getMeal(), equalTo("Smažený sýr po pastýřsku (sýr eidam, šunka), smažené hranolky, tatarská omáčka"));
-        assertThat(menuItems.get(0).getPrice(), equalTo(70));
+        assertThat(menuItems.get(0).getPrice(), equalTo(70+8));
 
         assertThat(menuItems.get(1).getName(), equalTo("Menu 2"));
         assertThat(menuItems.get(1).getMeal(), equalTo("Domácí ovocné kynuté knedlíky sypané grankem, máslo"));
-        assertThat(menuItems.get(1).getPrice(), equalTo(70));
+        assertThat(menuItems.get(1).getPrice(), equalTo(70+8));
 
         assertThat(menuItems.get(2).getName(), equalTo("Menu 3"));
         assertThat(menuItems.get(2).getMeal(), equalTo("Pečený pstruh na másle a kmíně, vařený brambor s petrželkou, zeleninová obloha"));
-        assertThat(menuItems.get(2).getPrice(), equalTo(90));
+        assertThat(menuItems.get(2).getPrice(), equalTo(90+8));
 
         assertThat(menuItems.get(3).getName(), equalTo("Menu 4"));
         assertThat(menuItems.get(3).getMeal(), equalTo("Krůtí špíz ,,KARIBIK? (krůtí marinované maso,šunka,čerstvý ananas) podlitý sýrovou omáčkou"));
-        assertThat(menuItems.get(3).getPrice(), equalTo(90));
+        assertThat(menuItems.get(3).getPrice(), equalTo(90+8));
 
         assertThat(menuItems.get(4).getName(), equalTo("Menu 5"));
         assertThat(menuItems.get(4).getMeal(), equalTo("Pizza ,,Bacon? (tomatový základ, sýr, anglická slanina, kukuřice)"));
-        assertThat(menuItems.get(4).getPrice(), equalTo(99));
+        assertThat(menuItems.get(4).getPrice(), equalTo(99+8));
 
         // tuesday was skipped
         day.add(Calendar.DAY_OF_MONTH, 1);

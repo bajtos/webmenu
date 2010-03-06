@@ -20,6 +20,8 @@ public class SportCafeParser implements Parser {
     final static Pattern MealNamePattern = Pattern.compile("^\\d+\\)\\s+(.*[^,])[,]?$");
     final static Pattern PricePattern = Pattern.compile("^(\\d+),-$");
 
+    final static int ShippingFee = 8; // packaging & shipping fee in CZK
+
     static Calendar getStartDate(Calendar now) {
         int dayInWeek = now.get(Calendar.DAY_OF_WEEK);
         now.add(Calendar.DAY_OF_MONTH, -(dayInWeek - Calendar.MONDAY + 7) % 7);
@@ -112,6 +114,7 @@ public class SportCafeParser implements Parser {
             throw new CrawlException("Cannot parse price '" + m.group(1) + "' as integer");
         }
 
+        price += ShippingFee;
         return new MenuItem("Menu " + (item +1), name, price);
     }
 

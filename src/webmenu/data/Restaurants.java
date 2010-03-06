@@ -9,6 +9,7 @@ public class Restaurants
     public final static String SPORT_CAFE_HK = "sport-cafe-hk";
 
     private final static String STANDARD_DISCLAIMER = "Uvedené ceny jsou pouze orientační, doporučujeme je zkontrolovat před objednáním.";
+    private final static String TWOMEALS_DISCLAIMER = "Pro dovezení jídla je nutné objednat alespoň dvě porce (menu).";
 
     public static String[] getKeys() {
       return new String[] { MAM_HLAD_HK, SPORT_CAFE_HK };
@@ -23,7 +24,7 @@ public class Restaurants
                     "http://www.mamhladvhk.cz/info-o-rozvozu.php",
                     new String[] { 
                         STANDARD_DISCLAIMER, 
-                   "Pro dovezení jídla je nutné objednat alespoň dvě porce (menu).",
+                        TWOMEALS_DISCLAIMER,
                     });
 
         if (key.equals(Restaurants.SPORT_CAFE_HK))
@@ -34,6 +35,7 @@ public class Restaurants
                     "http://www.sport-cafe.cz/rozvoz.php",
                     new String[] {
                         STANDARD_DISCLAIMER,
+                        TWOMEALS_DISCLAIMER,
                     });
 
         throw new IllegalArgumentException();
