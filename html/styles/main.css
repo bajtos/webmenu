@@ -49,6 +49,7 @@ body {
 
 .rounded {
    -moz-border-radius: 20px;
+   -webkit-border-radius: 20px;
 }
 
 a:link, a:visited {
