@@ -46,4 +46,9 @@ public class MenuItem
         this.meal = meal;
         this.price = price;
     }
+
+    public MenuItem(MenuItem other)
+    {
+        this (other.name, other.meal, other.price);
+    }
 }

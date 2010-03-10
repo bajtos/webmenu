@@ -16,7 +16,7 @@ public class CafePopularParser implements Parser {
 
     final static Pattern StartDatePattern = Pattern.compile("MENU V OBDOBÍ OD\\s+(\\d+)\\.(\\d+)\\.\\s+-\\s+(\\d+)\\.(\\d+)\\.(\\d+)");
 
-    final static int PizzaFee = 0; // TODO packaging & shipping in CZK
+    final static int PizzaFee = 8;
     final static Pattern Pizza1Pattern = Pattern.compile("PIZZA No.1\\s+„\\s*(.*)\\s*“\\s+Kč (\\d+),-");
     final static Pattern Pizza2Pattern = Pattern.compile("PIZZA No.2\\s+„\\s*(.*)\\s*“\\s+Kč (\\d+),-");
 
@@ -24,7 +24,7 @@ public class CafePopularParser implements Parser {
     final static Pattern SaladPattern = Pattern.compile(
             "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *S *A *L *Á *T */ */ *S *A *L *A *D\\s+●\\s*(.*\\s?.*)\\s+Kč *(\\d+),-");
 
-    final static int WeekMealFee = 0; // TODO packaging & shipping in CZK
+    final static int WeekMealFee = 20;
     final static Pattern ItalyPattern = Pattern.compile(
             "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *I *T *A *L *S *K *Á *K *U *C *H *Y *N *Ě */ */ *I *TA *L *I *A *N *C *O *U *S *I *N *E\\s+●\\s*(.*\\s?.*)\\s+Kč *(\\d+),-");
     final static Pattern CzechPattern = Pattern.compile(
@@ -200,12 +200,12 @@ public class CafePopularParser implements Parser {
                 soups.add(days[d].soup);
 
                 List<MenuItem> meals = new ArrayList<MenuItem>(7);
-                meals.add(pizza1);
-                meals.add(pizza2);
-                meals.add(salad);
-                meals.add(italy);
-                meals.add(czech);
-                meals.add(vegetarian);
+                meals.add(new MenuItem(pizza1));
+                meals.add(new MenuItem(pizza2));
+                meals.add(new MenuItem(salad));
+                meals.add(new MenuItem(italy));
+                meals.add(new MenuItem(czech));
+                meals.add(new MenuItem(vegetarian));
                 meals.add(days[d].menu);
 
                 retval[d] = new OneDayMenu(start.getTime(), soups, meals);

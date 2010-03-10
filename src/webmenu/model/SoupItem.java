@@ -39,4 +39,9 @@ public class SoupItem
         this.name = name;
         this.meal = meal;
     }
+
+    public SoupItem(SoupItem other)
+    {
+        this(other.name, other.meal);
+    }
 }
