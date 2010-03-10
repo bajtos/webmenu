@@ -12,4 +12,10 @@
       <schedule>every day 08:30</schedule>
       <timezone>Europe/Prague</timezone>
    </cron>
+   <cron>
+      <url>/admin/update/cafe-popular-hk</url>
+      <description>Update menu for "Cafe Popular HK"</description>
+      <schedule>every day 08:30</schedule>
+      <timezone>Europe/Prague</timezone>
+   </cron>
 </cronentries>
