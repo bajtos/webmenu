@@ -8,8 +8,9 @@
 <body>
    <h3>Spustit aktualizaci</h3>
    <ul>
-      <li><a href="update/mam-hlad-hk">MamHladHk</a></li>
-      <li><a href="update/sport-cafe-hk">Sport Cafe (HK)</a></li>
+      <% for (String rk : Restaurants.getKeys()) { %>
+      <li><a href="update/<%= rk %>"><%= Restaurants.getRestaurant(rk).getName() %></a></li>
+      <% } %>
    </ul>
 </body>
 </html>
