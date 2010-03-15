@@ -49,7 +49,7 @@ public class CafePopularParserTest {
         String pdfText = loadShortMenu();
         MenuItem item = CafePopularParser.parsePizza1(pdfText);
         assertThat(item.getName(), equalTo("Pizza 1"));
-        assertThat(item.getMeal(), equalTo("SMETANA, SÝR MOZZARELLA, BURGUNDSKÁ ŠUNKA, ŽAMPIONY"));
+        assertThat(item.getMeal(), equalTo("„SMETANA, SÝR MOZZARELLA, BURGUNDSKÁ ŠUNKA, ŽAMPIONY“"));
         assertThat(item.getPrice(), equalTo(99 + CafePopularParser.PizzaFee));
     }
 
@@ -57,7 +57,7 @@ public class CafePopularParserTest {
         String pdfText = loadShortMenu();
         MenuItem item = CafePopularParser.parsePizza2(pdfText);
         assertThat(item.getName(), equalTo("Pizza 2"));
-        assertThat(item.getMeal(), equalTo("SUGO, ČERTVÝ SÝR MOZZARELLA, PAPRIKOVÝ SALÁM , FEFERONY"));
+        assertThat(item.getMeal(), equalTo("„SUGO, ČERTVÝ SÝR MOZZARELLA, PAPRIKOVÝ SALÁM, FEFERONY“"));
         assertThat(item.getPrice(), equalTo(99 + CafePopularParser.PizzaFee));
     }
 
@@ -134,7 +134,7 @@ public class CafePopularParserTest {
         CafePopularParser.MenuWithSoup result = CafePopularParser.parseThursday(pdfText, 42);
 
         assertThat(result.menu.getName(), equalTo("Dnešní"));
-        assertThat(result.menu.getMeal(), equalTo("„PANGASIUS NA ROZMARÝNU“ - grilovaný pangasius na rozmarýnu a olivovém oleji, servírujeme s tomatovým přelivem , domácí bramborovou kaší zjemněnou máslem a čerstvou zeleninou"));
+        assertThat(result.menu.getMeal(), equalTo("„PANGASIUS NA ROZMARÝNU“ - grilovaný pangasius na rozmarýnu a olivovém oleji, servírujeme s tomatovým přelivem, domácí bramborovou kaší zjemněnou máslem a čerstvou zeleninou"));
         assertThat(result.menu.getPrice(), equalTo(42));
 
         assertThat(result.soup.getName(), equalTo("Polévka"));
@@ -204,5 +204,34 @@ public class CafePopularParserTest {
 
         assertFalse(menus[4].isEmpty());
         assertEquals(new GregorianCalendar(2010, 03-1, 05).getTime(), menus[4].getDay());
+    }
+
+    @Test public void parse_Pizza2Problem_Works() throws Exception {
+        File f = TestUtil.getTestData("cafe-popular-pizza2.pdf");
+        FileInputStream s = new FileInputStream(f);
+        String pdfText = CafePopularParser.extractText(s);
+        MenuItem item = CafePopularParser.parsePizza2(pdfText);
+        assertNotNull(item);
+        assertThat(item.getName(), equalTo("Pizza 2"));
+        assertThat(item.getMeal(), equalTo("„PIZZA VEGETARIANA“ - sugo, mozzarella, kukuřice, parika, cuketa, lilek, pesto"));
+        assertThat(item.getPrice(), equalTo(99 + CafePopularParser.PizzaFee));
+    }
+
+    @Test public void parse_MissingDotInDayMenu_Works() throws Exception {
+        File f = TestUtil.getTestData("cafe-popular-pizza2.pdf");
+        FileInputStream s = new FileInputStream(f);
+        String pdfText = CafePopularParser.extractText(s);
+
+
+        CafePopularParser.MenuWithSoup result = CafePopularParser.parseTuesday(pdfText, 42);
+        assertNotNull(result);
+        assertNotNull(result.menu);
+
+        assertThat(result.menu.getName(), equalTo("Dnešní"));
+        assertThat(result.menu.getMeal(), equalTo("„GRILOVANÁ MARINOVANÁ VEPŘOVÁ KOTLETKA“ - vepřová kotletka na grilu s rozmarýnem, servírovaná s restovanou máslovou kukuřicí, bramborovými kroketami a bazalkovým přelivem"));
+        assertThat(result.menu.getPrice(), equalTo(42));
+
+        assertThat(result.soup.getName(), equalTo("Polévka"));
+        assertThat(result.soup.getMeal(), equalTo("Italská z čerstvých rajčat s parmezanem"));
     }
 }

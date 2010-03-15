@@ -17,8 +17,8 @@ public class CafePopularParser implements Parser {
     final static Pattern StartDatePattern = Pattern.compile("MENU V OBDOBÍ OD\\s+(\\d+)\\.(\\d+)\\.\\s+-\\s+(\\d+)\\.(\\d+)\\.(\\d+)");
 
     final static int PizzaFee = 8;
-    final static Pattern Pizza1Pattern = Pattern.compile("PIZZA No.1\\s+„\\s*(.*)\\s*“\\s+Kč (\\d+),-");
-    final static Pattern Pizza2Pattern = Pattern.compile("PIZZA No.2\\s+„\\s*(.*)\\s*“\\s+Kč (\\d+),-");
+    final static Pattern Pizza1Pattern = Pattern.compile("PIZZA\\s+No.1\\s+(.*)\\s+Kč *(\\d+),-");
+    final static Pattern Pizza2Pattern = Pattern.compile("PIZZA\\s+No.2\\s+(.*)\\s+Kč *(\\d+),-");
 
     final static int SaladFee = 0; // TODO packaging & shipping in CZK
     final static Pattern SaladPattern = Pattern.compile(
@@ -34,7 +34,7 @@ public class CafePopularParser implements Parser {
 
     final static Pattern DayMenuPricePattern = Pattern.compile("KOMPLETNÍ MENU S POLÉVKOU\\s+\\d+,- Kč\\s+(\\d+),- Kč");
 
-    final static Pattern DayMenuPattern = Pattern.compile("^\\s+●\\s+(.*\\s?.*)\\s+●\\s+(.*)\\s$");
+    final static Pattern DayMenuPattern = Pattern.compile("^\\s*●?\\s+(.*\\s?.*)\\s+●\\s+(.*)\\s$");
     final static Pattern MondayPattern = Pattern.compile("P *O *N *D *Ě *L *Í((?s).*)Ú *T *E *R *Ý");
     final static Pattern TuesdayPattern = Pattern.compile("Ú *T *E *R *Ý((?s).*)S *T *Ř *E *D *A");
     final static Pattern WednesdayPattern = Pattern.compile("S *T *Ř *E *D *A((?s).*)Č *T *V *R *T *E *K");
@@ -70,8 +70,10 @@ public class CafePopularParser implements Parser {
 
     static MenuItem parseMenuItem(String pdfText, Pattern pattern, String name, int fee) throws CrawlException {
         Matcher m = pattern.matcher(pdfText);
-        if (!m.find())
-            throw new CrawlException(name + " not found\n" + pdfText);
+        if (!m.find()) {
+            log.warning(name + " not found\n" + pdfText);
+            return null;
+        }
     
         try {
             String meal = normalizeText(m.group(1));
@@ -132,12 +134,12 @@ public class CafePopularParser implements Parser {
     static MenuWithSoup parseDayMenu(String pdfText, int menuPrice, Pattern pattern, String day) throws CrawlException {
         Matcher m = pattern.matcher(pdfText);
         if (!m.find())
-            throw new CrawlException("DayMenuPrice not found\n" + pdfText);
+            throw new CrawlException("day-menu not found\n" + pdfText);
         String inner = m.group(1);
 
         m = DayMenuPattern.matcher(inner);
         if (!m.find()) {
-            log.info("Skipping malformed day-menu " + day + ":\n" + inner);
+            log.warning("Skipping malformed day-menu " + day + ":\n" + inner);
             return null;
         }
 
@@ -200,12 +202,12 @@ public class CafePopularParser implements Parser {
                 soups.add(days[d].soup);
 
                 List<MenuItem> meals = new ArrayList<MenuItem>(7);
-                meals.add(new MenuItem(pizza1));
-                meals.add(new MenuItem(pizza2));
-                meals.add(new MenuItem(salad));
-                meals.add(new MenuItem(italy));
-                meals.add(new MenuItem(czech));
-                meals.add(new MenuItem(vegetarian));
+                if (pizza1 != null) meals.add(new MenuItem(pizza1));
+                if (pizza2 != null) meals.add(new MenuItem(pizza2));
+                if (salad != null) meals.add(new MenuItem(salad));
+                if (italy != null) meals.add(new MenuItem(italy));
+                if (czech != null) meals.add(new MenuItem(czech));
+                if (vegetarian != null) meals.add(new MenuItem(vegetarian));
                 meals.add(days[d].menu);
 
                 retval[d] = new OneDayMenu(start.getTime(), soups, meals);
