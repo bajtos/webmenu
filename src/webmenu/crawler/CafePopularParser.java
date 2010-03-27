@@ -17,36 +17,36 @@ public class CafePopularParser implements Parser {
     final static Pattern StartDatePattern = Pattern.compile("MENU V OBDOBÍ OD\\s+(\\d+)\\.(\\d+)\\.\\s+-\\s+(\\d+)\\.(\\d+)\\.(\\d+)");
 
     final static int PizzaFee = 8;
-    final static Pattern Pizza1Pattern = Pattern.compile("PIZZA\\s+No.1\\s+(.*)\\s+Kč *(\\d+),-");
-    final static Pattern Pizza2Pattern = Pattern.compile("PIZZA\\s+No.2\\s+(.*)\\s+Kč *(\\d+),-");
+    final static Pattern Pizza1Pattern = Pattern.compile("PIZZA\\s+No.1\\s+(.+)\\s+Kč *(\\d+),-");
+    final static Pattern Pizza2Pattern = Pattern.compile("PIZZA\\s+No.2\\s+(.+)\\s+Kč *(\\d+),-");
 
     final static int SaladFee = 0; // TODO packaging & shipping in CZK
     final static Pattern SaladPattern = Pattern.compile(
-            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *S *A *L *Á *T */ */ *S *A *L *A *D\\s+●\\s*(.*\\s?.*)\\s+Kč *(\\d+),-");
+            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *S *A *L *Á *T */ */ *S *A *L *A *D\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
 
     final static int WeekMealFee = 20;
     final static Pattern ItalyPattern = Pattern.compile(
-            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *I *T *A *L *S *K *Á *K *U *C *H *Y *N *Ě */ */ *I *TA *L *I *A *N *C *O *U *S *I *N *E\\s+●\\s*(.*\\s?.*)\\s+Kč *(\\d+),-");
+            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *I *T *A *L *S *K *Á *K *U *C *H *Y *N *Ě */ */ *I *TA *L *I *A *N *C *O *U *S *I *N *E\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
     final static Pattern CzechPattern = Pattern.compile(
-            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *Č *E *S *K *Á *K *U *C *H *Y *N *Ě */ */ *C *Z *E *C *H *C *O *U *S *I *N *E\\s+●\\s*(.*\\s?.*)\\s+Kč *(\\d+),-");
+            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *Č *E *S *K *Á *K *U *C *H *Y *N *Ě */ */ *C *Z *E *C *H *C *O *U *S *I *N *E\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
     final static Pattern VegetarianPattern = Pattern.compile(
-            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *B *E *Z *M *A *S *Á *K *U *C *H *Y *N *Ě */ */ *W *I *T *H *O *U *T *M *E *AT *C *O *U *S *I *N *E\\s+●\\s*(.*\\s?.*)\\s+Kč *(\\d+),-");
+            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *B *E *Z *M *A *S *Á *K *U *C *H *Y *N *Ě */ */ *W *I *T *H *O *U *T *M *E *AT *C *O *U *S *I *N *E\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
 
-    final static Pattern DayMenuPricePattern = Pattern.compile("KOMPLETNÍ MENU S POLÉVKOU\\s+\\d+,- Kč\\s+(\\d+),- Kč");
+    final static Pattern DayMenuPricePattern = Pattern.compile("KOMPLETNÍ MENU S POLÉVKOU\\s*\\d+,- Kč\\s+(\\d+),- Kč");
 
-    final static Pattern DayMenuPattern = Pattern.compile("^\\s*●?\\s+(.*\\s?.*)\\s+●\\s+(.*)\\s$");
-    final static Pattern MondayPattern = Pattern.compile("P *O *N *D *Ě *L *Í((?s).*)Ú *T *E *R *Ý");
-    final static Pattern TuesdayPattern = Pattern.compile("Ú *T *E *R *Ý((?s).*)S *T *Ř *E *D *A");
-    final static Pattern WednesdayPattern = Pattern.compile("S *T *Ř *E *D *A((?s).*)Č *T *V *R *T *E *K");
-    final static Pattern ThursdayPattern = Pattern.compile("Č *T *V *R *T *E *K((?s).*)P *Á *T *E *K");
-    final static Pattern FridayPattern = Pattern.compile("P *Á *T *E *K((?s).*)KOMPLETNÍ(?s).*S *DOVOZEM");
+    final static Pattern DayMenuPattern = Pattern.compile("^\\s*●?\\s*(.+\\s?.*)\\s+●\\s*(.+)\\s$");
+    final static Pattern MondayPattern = Pattern.compile("P *O *N *D *Ě *L *Í((?s).+)Ú *T *E *R *Ý");
+    final static Pattern TuesdayPattern = Pattern.compile("Ú *T *E *R *Ý((?s).+)S *T *Ř *E *D *A");
+    final static Pattern WednesdayPattern = Pattern.compile("S *T *Ř *E *D *A((?s).+)Č *T *V *R *T *E *K");
+    final static Pattern ThursdayPattern = Pattern.compile("Č *T *V *R *T *E *K((?s).+)P *Á *T *E *K");
+    final static Pattern FridayPattern = Pattern.compile("P *Á *T *E *K((?s).+)KOMPLETNÍ(?s).+S *DOVOZEM");
 
     static String extractText(InputStream source) throws IOException, CrawlException {
         PdfReader reader = new PdfReader(source);
         if (reader.getNumberOfPages() != 1)
             throw new CrawlException("The PDF document has " + reader.getNumberOfPages() + " pages.");
 
-        PdfTextExtractor extractor = new PdfTextExtractor(reader, new SimpleTextExtractingPdfContentRenderListener());
+        PdfTextExtractor extractor = new PdfTextExtractor(reader, new PdfTextListener());
         return extractor.getTextFromPage(1);
     }
 
