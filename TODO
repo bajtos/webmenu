@@ -1,3 +1,5 @@
+* zadavani chybove hlasky
+
 * make unique title for different days
 * support If-Modified-Since
 * don't update datastore entries if the menu webpage was not changed
