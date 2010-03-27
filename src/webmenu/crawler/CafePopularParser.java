@@ -5,13 +5,8 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.regex.*;
 
-import de.intarsys.pdf.pd.*;
-import de.intarsys.pdf.content.*;
-import de.intarsys.pdf.content.text.CSTextExtractor;
-import de.intarsys.pdf.parser.COSLoadException;
-import de.intarsys.tools.locator.*;
-
-import org.apache.commons.io.IOUtils;
+import com.itextpdf.text.pdf.parser.*;
+import com.itextpdf.text.pdf.PdfReader;
 
 import webmenu.model.*;
 import static webmenu.crawler.ParserUtil.normalizeText;
@@ -47,33 +42,12 @@ public class CafePopularParser implements Parser {
     final static Pattern FridayPattern = Pattern.compile("P *Á *T *E *K((?s).*)KOMPLETNÍ(?s).*S *DOVOZEM");
 
     static String extractText(InputStream source) throws IOException, CrawlException {
-        PDDocument doc = null;
-        try {
-            byte[] sourceData = IOUtils.toByteArray(source);
-            ILocator locator = new ByteArrayLocator(sourceData, "source", "pdf");
-            doc = PDDocument.createFromLocator(locator);
-            PDPageTree pageTree = doc.getPageTree();
-            if (pageTree.getCount() != 1)
-                throw new CrawlException("The PDF document has " + pageTree.getCount() + " pages.");
+        PdfReader reader = new PdfReader(source);
+        if (reader.getNumberOfPages() != 1)
+            throw new CrawlException("The PDF document has " + reader.getNumberOfPages() + " pages.");
 
-            PDPage page = pageTree.getFirstPage();
-            CSTextExtractor extractor = new CSTextExtractor();
-            /*
-            AffineTransform pageTx = new AffineTransform();
-            PDFGeometryTools.adjustTransform(pageTx, page);
-            extractor.setDeviceTransform(pageTx);
-            */
-            CSDeviceBasedInterpreter interpreter = new CSDeviceBasedInterpreter(null, extractor);
-            interpreter.process(page.getContentStream(), page.getResources());
-            return extractor.getContent();
-        } catch (CSException e) {
-            throw new CrawlException("Cannot process PDF document.", e);
-        } catch (COSLoadException e) {
-            throw new CrawlException("Cannot process PDF document.", e);
-        } finally {
-            if (doc != null)
-                doc.close();
-        }
+        PdfTextExtractor extractor = new PdfTextExtractor(reader, new SimpleTextExtractingPdfContentRenderListener());
+        return extractor.getTextFromPage(1);
     }
 
     static Calendar parseStartDate(String pdfText) throws CrawlException {

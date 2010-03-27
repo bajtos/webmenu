@@ -34,8 +34,8 @@ public class CafePopularParserTest {
         String pdfText = loadShortMenu();
 
         assertThat(pdfText, allOf(
-                    matches("(?s).*S *P *E *C *I *A *L *O *F *F *E *R(?s).*"),
-                    matches("(?s).*S T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *:(?s).*")
+                    matches("(?s).*S P E C I A L O F F E R(?s).*"),
+                    matches("(?s).*S T Á L Á T Ý D E N N Í N A B Í D K A :(?s).*")
                     ));
     }
 
@@ -233,11 +233,5 @@ public class CafePopularParserTest {
 
         assertThat(result.soup.getName(), equalTo("Polévka"));
         assertThat(result.soup.getMeal(), equalTo("Italská z čerstvých rajčat s parmezanem"));
-    }
-
-    @Test public void parse_SpacingProblem() throws Exception {
-        File file = TestUtil.getTestData("cafe-popular-spacing.pdf");
-        FileInputStream stream = new FileInputStream(file);
-        OneDayMenu[] menus = new CafePopularParser().parse(stream);
     }
 }
