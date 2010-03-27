@@ -33,15 +33,12 @@ public class CafePopularCrawler implements Crawler {
       OneDayMenuStore store = createStore();
 
       InputStream webpage = fetcher.fetch(url);
-      URL[] links = new CafePopularLinksParser().parseLinks(url, webpage);
-      for (URL link : links)
-      {
-          webpage = fetcher.fetch(link);
-          OneDayMenu[] data = parser.parse(webpage);
+      URL link = new CafePopularLinksParser().parseLinks(url, webpage);
+      webpage = fetcher.fetch(link);
+      OneDayMenu[] data = parser.parse(webpage);
 
-          for (OneDayMenu menu : data) {
-              store.updateOneDayMenu(Restaurants.CAFE_POPULAR_HK, menu);
-          }
+      for (OneDayMenu menu : data) {
+          store.updateOneDayMenu(Restaurants.CAFE_POPULAR_HK, menu);
       }
    }
 }

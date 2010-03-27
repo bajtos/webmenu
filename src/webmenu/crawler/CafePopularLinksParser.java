@@ -16,7 +16,7 @@ public class CafePopularLinksParser {
     final static HtmlBuilder builder = new HtmlBuilder(XmlViolationPolicy.ALTER_INFOSET);
     final static XPathContext xpathContext = new XPathContext("x", "http://www.w3.org/1999/xhtml");
 
-    URL[] parseLinks(URL pageUrl, InputStream pageSource) throws CrawlException
+    URL parseLinks(URL pageUrl, InputStream pageSource) throws CrawlException
     {
         Document doc;
         try {
@@ -32,7 +32,7 @@ public class CafePopularLinksParser {
         if (nodes.size() == 0)
             throw new CrawlException("Cannot parse menu-links page: no links found.");
 
-        List<URL> links = new ArrayList<URL>();
+        URL lastUrl = null;
         for (int i=0; i < nodes.size(); i++)
         {
             Node link = nodes.get(i);
@@ -51,8 +51,8 @@ public class CafePopularLinksParser {
                 log.warning("Skipping malformed <a> node (" + e + "): " + link.toXML());
                 continue;
             }
-            links.add(url);
+            lastUrl = url;
         }
-        return links.toArray(new URL[0]);
+        return lastUrl;
     }
 }
