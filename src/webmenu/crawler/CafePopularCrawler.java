@@ -19,8 +19,8 @@ public class CafePopularCrawler implements Crawler {
       return new CafePopularParser();
    }
 
-   protected OneDayMenuStore createStore() {
-      return new GoogleOneDayMenuStore();
+   protected DataStore createStore() {
+      return new GoogleDataStore();
    }
 
    public void update(URL url) throws MalformedURLException, IOException, CrawlException {
@@ -30,7 +30,7 @@ public class CafePopularCrawler implements Crawler {
 
       UrlFetcher fetcher = createFetcher();
       Parser parser = createParser();
-      OneDayMenuStore store = createStore();
+      DataStore store = createStore();
 
       InputStream webpage = fetcher.fetch(url);
       URL link = new CafePopularLinksParser().parseLinks(url, webpage);

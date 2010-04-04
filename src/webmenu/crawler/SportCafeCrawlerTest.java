@@ -22,7 +22,7 @@ public class SportCafeCrawlerTest
     {
         final UrlFetcher fetcher = mockery.mock(UrlFetcher.class);
         final Parser parser = mockery.mock(Parser.class);
-        final OneDayMenuStore store = mockery.mock(OneDayMenuStore.class);
+        final DataStore store = mockery.mock(DataStore.class);
 
         final InputStream content = new ByteArrayInputStream(new byte[0]);
         Calendar now = Calendar.getInstance();
@@ -48,7 +48,7 @@ public class SportCafeCrawlerTest
     {
         final UrlFetcher fetcher = mockery.mock(UrlFetcher.class);
         final Parser parser = mockery.mock(Parser.class);
-        final OneDayMenuStore store = mockery.mock(OneDayMenuStore.class);
+        final DataStore store = mockery.mock(DataStore.class);
 
         final InputStream content = new ByteArrayInputStream(new byte[0]);
 
@@ -74,9 +74,9 @@ public class SportCafeCrawlerTest
     {
         private UrlFetcher fetcher;
         private Parser parser;
-        private OneDayMenuStore store;
+        private DataStore store;
 
-        public CustomCrawler(UrlFetcher fetcher, Parser parser, OneDayMenuStore store)
+        public CustomCrawler(UrlFetcher fetcher, Parser parser, DataStore store)
         {
             this.fetcher = fetcher;
             this.parser = parser;
@@ -96,7 +96,7 @@ public class SportCafeCrawlerTest
         }
 
         @Override
-        protected OneDayMenuStore createStore()
+        protected DataStore createStore()
         {
             return store;
         }

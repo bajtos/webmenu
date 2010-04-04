@@ -21,9 +21,9 @@ public class MamHladHkCrawler implements Crawler
         return new MamHladHkParser();
     }
 
-    protected OneDayMenuStore createStore()
+    protected DataStore createStore()
     {
-        return new GoogleOneDayMenuStore();
+        return new GoogleDataStore();
     }
 
     public void update(URL url) throws MalformedURLException, IOException, CrawlException
@@ -33,7 +33,7 @@ public class MamHladHkCrawler implements Crawler
 
         InputStream webpage = createFetcher().fetch(url);
         OneDayMenu[] data = createParser().parse(webpage);
-        OneDayMenuStore store = createStore();
+        DataStore store = createStore();
         for (OneDayMenu menu : data)
         {
             store.updateOneDayMenu(Restaurants.MAM_HLAD_HK, menu);

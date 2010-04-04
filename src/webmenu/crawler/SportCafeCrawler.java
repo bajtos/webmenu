@@ -19,8 +19,8 @@ public class SportCafeCrawler implements Crawler {
       return new SportCafeParser();
    }
 
-   protected OneDayMenuStore createStore() {
-      return new GoogleOneDayMenuStore();
+   protected DataStore createStore() {
+      return new GoogleDataStore();
    }
 
    public void update(URL url) throws MalformedURLException, IOException, CrawlException {
@@ -30,7 +30,7 @@ public class SportCafeCrawler implements Crawler {
 
       InputStream webpage = createFetcher().fetch(url);
       OneDayMenu[] data = createParser().parse(webpage);
-      OneDayMenuStore store = createStore();
+      DataStore store = createStore();
 
       Calendar now = Calendar.getInstance();
       Calendar today = new GregorianCalendar(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));

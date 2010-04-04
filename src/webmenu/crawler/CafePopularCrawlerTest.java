@@ -23,7 +23,7 @@ public class CafePopularCrawlerTest
         final URL baseUrl = new URL("http://www.expresspopular.cz/denni-menu");
         final UrlFetcher fetcher = mockery.mock(UrlFetcher.class);
         final Parser parser = mockery.mock(Parser.class);
-        final OneDayMenuStore store = mockery.mock(OneDayMenuStore.class);
+        final DataStore store = mockery.mock(DataStore.class);
 
         final InputStream links0 = CafePopularLinksParserTest.getMenuLinkStream();
         final URL url = new CafePopularLinksParser().parseLinks(baseUrl, links0);
@@ -54,9 +54,9 @@ public class CafePopularCrawlerTest
     {
         private UrlFetcher fetcher;
         private Parser parser;
-        private OneDayMenuStore store;
+        private DataStore store;
 
-        public CustomCrawler(UrlFetcher fetcher, Parser parser, OneDayMenuStore store)
+        public CustomCrawler(UrlFetcher fetcher, Parser parser, DataStore store)
         {
             this.fetcher = fetcher;
             this.parser = parser;
@@ -76,7 +76,7 @@ public class CafePopularCrawlerTest
         }
 
         @Override
-        protected OneDayMenuStore createStore()
+        protected DataStore createStore()
         {
             return store;
         }
