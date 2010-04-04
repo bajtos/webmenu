@@ -17,6 +17,7 @@
    <meta name="title" content="Rozvoz obědů - Chci oběd!"/>
    <meta name="description" content="Přehled denních menu restaurací, které poskytují rozvoz jídla."/>
    <link rel="img_src" href="/images/favicon.ico" /> <!-- facebook thumbnail -->
+   <%-- this does not work in all browsers :( 
    <script type="text/javascript">
       function bookmark(url, title) {
          if (window.sidebar)
@@ -25,6 +26,7 @@
             window.external.AddFavorite(url, title);
       }
    </script>
+   --%>
 </head>
 <body>
    <div id="logo">
@@ -70,20 +72,22 @@
             <h4>Sdílet</h4>
             <ul class="social">
                <li><a target="_blank" rel="nofollow"
-                  href="http://www.facebook.com/sharer.php?u=http://www.chci-obed.eu/&t=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů")%>"
+                  href="http://www.facebook.com/sharer.php?u=http://www.chci-obed.eu/&t=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů", "UTF-8")%>"
                   ><span class="icon facebook"></span>Facebook</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://twitter.com/home?status=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů http://www.chci-obed.eu")%>"
+                  href="http://twitter.com/home?status=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů http://www.chci-obed.eu", "UTF-8")%>"
                   ><span class="icon twitter"></span>Twitter</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://www.google.com/reader/link?url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů")%>"
+                  href="http://www.google.com/reader/link?url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů", "UTF-8")%>"
                   ><span class="icon google"></span>Google Buzz</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://linkuj.cz/?id=linkuj&url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů")%>"
+                  href="http://linkuj.cz/?id=linkuj&url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů", "UTF-8")%>"
                   ><span class="icon linkuj"></span>Linkuj</a></li>
+               <%-- this does not work in all browsers :( 
                <li><a rel="nofollow"
                   href="javascript:bookmark('http://www.chci-obed.eu/', 'Chci oběd!')"
                   ><span class="icon bookmark"></span>Oblíbené</a></li>
+               --%>
             </ul>
          </div>
       </div> <!-- sidebar -->
