@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.*, java.text.*" %>
+<%@ page import="java.util.*, java.text.*, java.net.URLEncoder" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="webmenu.data.Restaurants, webmenu.model.*, webmenu.viewmodel.*" %>
 <%
@@ -70,16 +70,16 @@
             <h4>Sdílet</h4>
             <ul class="social">
                <li><a target="_blank" rel="nofollow"
-                  href="http://www.facebook.com/sharer.php?u=http://www.chci-obed.eu/&t=Přehled denních menu pro rozvoz obědů"
+                  href="http://www.facebook.com/sharer.php?u=http://www.chci-obed.eu/&t=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů")%>"
                   ><span class="icon facebook"></span>Facebook</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://twitter.com/home?status=Přehled denních menu pro rozvoz obědů http://www.chci-obed.eu"
+                  href="http://twitter.com/home?status=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů http://www.chci-obed.eu")%>"
                   ><span class="icon twitter"></span>Twitter</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://www.google.com/reader/link?url=http://www.chci-obed.eu/&title=Přehled denních menu pro rozvoz obědů"
+                  href="http://www.google.com/reader/link?url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů")%>"
                   ><span class="icon google"></span>Google Buzz</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://linkuj.cz/?id=linkuj&url=http://www.chci-obed.eu/&title=Přehled denních menu pro rozvoz obědů"
+                  href="http://linkuj.cz/?id=linkuj&url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů")%>"
                   ><span class="icon linkuj"></span>Linkuj</a></li>
                <li><a rel="nofollow"
                   href="javascript:bookmark('http://www.chci-obed.eu/', 'Chci oběd!')"
