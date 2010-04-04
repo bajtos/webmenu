@@ -17,6 +17,7 @@ public class SportCafeParser implements Parser {
     private static final Logger log = Logger.getLogger(SportCafeParser.class.getName());
 
     final static Pattern DayNamePattern = Pattern.compile("^images/menu_pro_tento_tyden/([^/]+).png$");
+    final static Pattern SoupPattern = Pattern.compile("^\\s*uvedené ceny(?s).+kč\\s*((?s).+)\\s*$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     final static Pattern MealNamePattern = Pattern.compile("^\\d+\\)\\s+(.*[^,])[,]?$");
     final static Pattern PricePattern = Pattern.compile("^(\\d+),-$");
 
@@ -64,7 +65,14 @@ public class SportCafeParser implements Parser {
             throw new CrawlException("Cannot parse soup name - there is no p[2]");
         }
 
-        return normalizeText(nodes.get(0).getValue());
+        String content = nodes.get(0).getValue();
+        Matcher m = SoupPattern.matcher(content);
+        if (m.matches())
+            content = m.group(1);
+        else
+            log.fine("Soup '" + content + "' did not match the pattern 'uvedene ceny...'");
+
+        return normalizeText(content);
     }
 
     public int parseMenuItemCount(Node menuDiv)

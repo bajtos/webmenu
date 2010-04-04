@@ -161,4 +161,15 @@ public class SportCafeParserTest {
         day.add(Calendar.DAY_OF_MONTH, 1);
         assertEquals(day.getTime(), menus[2].getDay());
     }
+
+    @Test public void SoupContainsAdditionalText() throws Exception {
+        FileInputStream html = new FileInputStream(TestUtil.getTestData("sport-cafe-menu-rozvoz.html"));
+        OneDayMenu[] menus = parser.parse(html);
+
+        assertThat(menus[0].getSoupItems().get(0).getMeal(), equalTo("Špenátová se smetanou"));
+        assertThat(menus[1].getSoupItems().get(0).getMeal(), equalTo("Francouzská cibulačka s uzeným sýrem"));
+        assertThat(menus[2].getSoupItems().get(0).getMeal(), equalTo("Moravská zelňačka"));
+        assertThat(menus[3].getSoupItems().get(0).getMeal(), equalTo("Hovězí vývar s játrovou rýží"));
+        assertThat(menus[4].getSoupItems().get(0).getMeal(), equalTo("Pórková s vejcem"));
+    }
 }
