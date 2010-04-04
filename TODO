@@ -1,11 +1,8 @@
-* better titles (to get the right keywords)
 * buttons for Twitter, Facebook, etc.
 * app engine button (?)
 
-* make unique title for different days
 * support If-Modified-Since
 * don't update datastore entries if the menu webpage was not changed
-
 
 Later:
 * add /about.html

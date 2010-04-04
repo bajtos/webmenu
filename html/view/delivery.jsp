@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Rozvoz jídla - <%= location %> - Chci Oběd!</title>
+   <title>Rozvoz obědů - <%= todayString %> - <%= location %></title>
    <link href="/styles/main.css" rel="stylesheet" type="text/css" />
    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -23,7 +23,7 @@
    <div id="page" class="rounded">
       <div id="content">
          <h1 class="title"><%= location %></h1>
-         <h2 class="title">Rozvoz jídla - <%= todayString %></h2>
+         <h2 class="title">Dovoz obědů &ndash; <%= todayString %></h2>
          <div class="spacer"></div>
 
          <% if (StringUtils.isNotEmpty(model.getWarningText())) { %>
