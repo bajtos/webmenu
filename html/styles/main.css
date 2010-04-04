@@ -189,3 +189,7 @@ table.menu td.price {
    font-style: italic;
 }
 
+.warning {
+   color: #BF382C;
+   margin: 0px 20px 10px 20px;
+}

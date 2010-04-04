@@ -17,9 +17,9 @@ import webmenu.viewmodel.*;
 public class MainServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(MainServlet.class.getName());
 
-    protected OneDayMenuStore createMenuStore()
+    protected DataStore createMenuStore()
     {
-        return new GoogleOneDayMenuStore();
+        return new GoogleDataStore();
     }
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -81,7 +81,7 @@ public class MainServlet extends HttpServlet {
 
       DeliveryViewModel model = new DeliveryViewModel(req.getServletPath() + "/hradec-kralove/rozvoz", "Hradec Králové", day);
 
-      OneDayMenuStore store = createMenuStore();
+      DataStore store = createMenuStore();
 
       for (String r : Restaurants.getKeys())
       {
@@ -89,6 +89,8 @@ public class MainServlet extends HttpServlet {
           Restaurant restaurant = Restaurants.getRestaurant(r);
           model.setMenu(r, new DayMenuViewModel(menu, restaurant));
       }
+
+      model.setWarningText(store.loadGlobalData().getWarningText());
 
       model.set(req);
       view(req, resp, "delivery");

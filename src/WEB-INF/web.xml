@@ -16,9 +16,19 @@
      <servlet-class>webmenu.UpdateServlet</servlet-class>
   </servlet>
 
+  <servlet>
+     <servlet-name>GlobalDataServlet</servlet-name>
+     <servlet-class>webmenu.GlobalDataServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>UpdateServlet</servlet-name>
     <url-pattern>/admin/update/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+     <servlet-name>GlobalDataServlet</servlet-name>
+     <url-pattern>/admin/global-data</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*, java.text.*" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="webmenu.data.Restaurants, webmenu.model.*, webmenu.viewmodel.*" %>
 <%
    DeliveryViewModel model = DeliveryViewModel.get(request);
@@ -24,6 +25,10 @@
          <h1 class="title"><%= location %></h1>
          <h2 class="title">Rozvoz jídla - <%= todayString %></h2>
          <div class="spacer"></div>
+
+         <% if (StringUtils.isNotEmpty(model.getWarningText())) { %>
+         <div class="warning rounded"><%= model.getWarningText() %></div>
+         <% } %>
 
          <%
          for (String rk : Restaurants.getKeys()) {

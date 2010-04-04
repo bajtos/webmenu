@@ -10,14 +10,13 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 import webmenu.model.*;
 
-/// Implementation of OneDayMenuStore using Google data-store API
-public class GoogleOneDayMenuStore implements OneDayMenuStore
+/// Implementation of DataStore using Google data-store API
+public class GoogleDataStore implements DataStore
 {
-    private static final Logger log = Logger.getLogger(GoogleOneDayMenuStore.class.getName());
+    private static final Logger log = Logger.getLogger(GoogleDataStore.class.getName());
     private static int NUM_RETRIES = 5;
 
-    static String createId(String restaurant, Date day)
-    {
+    static String createId(String restaurant, Date day) {
         StringBuilder idBuilder = new StringBuilder();
         idBuilder.append(restaurant);
 
@@ -29,24 +28,20 @@ public class GoogleOneDayMenuStore implements OneDayMenuStore
         return idBuilder.toString();
     }
 
-    static PersistenceManager getPersistenceManager()
-    {
+    static PersistenceManager getPersistenceManager() {
         return PMF.get().getPersistenceManager();
     }
 
-    static Key createKey(String id)
-    {
+    static Key createKey(String id) {
         return KeyFactory.createKey(OneDayMenu.class.getSimpleName(), id);
     }
 
-    public void updateOneDayMenu(String restaurant, OneDayMenu menu)
-    {
+    public void updateOneDayMenu(String restaurant, OneDayMenu menu) {
         String id = createId(restaurant, menu.getDay());
         Key key = createKey(id);
         menu.setKey(key);
 
-        for (int retry = 0; retry < NUM_RETRIES; ++retry)
-        {
+        for (int retry = 0; retry < NUM_RETRIES; ++retry) {
             PersistenceManager pm = getPersistenceManager();
             Transaction tx = pm.currentTransaction();
 
@@ -77,25 +72,51 @@ public class GoogleOneDayMenuStore implements OneDayMenuStore
         }
     }
     
-    public OneDayMenu getOneDayMenu(String restaurant, Date day)
-    {
+    public OneDayMenu getOneDayMenu(String restaurant, Date day) {
        Key key = createKey(createId(restaurant, day));
        PersistenceManager pm = getPersistenceManager();
 
-       try
-       {
+       try {
           OneDayMenu menu = pm.getObjectById(OneDayMenu.class, key);
           OneDayMenu copy = pm.detachCopy(menu);
           copy.setSoupItems((List<SoupItem>)pm.detachCopyAll(menu.getSoupItems()));
           copy.setMenuItems((List<MenuItem>)pm.detachCopyAll(menu.getMenuItems()));
           return copy;
-       }
-       catch (JDOObjectNotFoundException e)
-       {
+       } catch (JDOObjectNotFoundException e) {
           return null;
+       } finally {
+          pm.close();
        }
-       finally
-       {
+    }
+    
+    public void saveGlobalData(GlobalData data) {
+        for (int retry = 0; retry < NUM_RETRIES; ++retry) {
+            PersistenceManager pm = getPersistenceManager();
+            Transaction tx = pm.currentTransaction();
+
+            try {
+                pm.makePersistent(data);
+                log.info("GlobalData has been updated.");
+                break;
+            } catch (JDOCanRetryException e) {
+                if (retry == NUM_RETRIES-1)
+                    throw e;
+            } finally {
+                if (tx.isActive())
+                    tx.rollback();
+                pm.close();
+            }
+        }
+    }
+
+    public GlobalData loadGlobalData() {
+       PersistenceManager pm = getPersistenceManager();
+       try {
+          GlobalData data = pm.getObjectById(GlobalData.class, GlobalData.TheKey);
+          return pm.detachCopy(data);
+       } catch (JDOObjectNotFoundException e) {
+           return new GlobalData();
+       } finally {
           pm.close();
        }
     }

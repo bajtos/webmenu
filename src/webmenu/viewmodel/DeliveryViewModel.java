@@ -13,34 +13,33 @@ public class DeliveryViewModel
     private String urlPrefix;
     private Calendar date;
     private String locationName;
+    private String warningText;
 
-    public Calendar getDate()
-    {
+    public String getWarningText() {
+       return warningText;
+    }
+
+    public Calendar getDate() {
         return date;
     }
 
-    public String getLocationName()
-    {
+    public String getLocationName() {
         return locationName;
     }
 
-    public DayMenuViewModel getMenu(String restaurant)
-    {
+    public DayMenuViewModel getMenu(String restaurant) {
         return menuMap.get(restaurant);
     }
 
-    public String getDayUrl(int dayOfWeek)
-    {
+    public String getDayUrl(int dayOfWeek) {
         Calendar day = (Calendar)date.clone();
         day.getTime(); // from some strange reasons we have to call this so that the calendar updates its internal state
         day.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         return MessageFormat.format("{0}/{1,date,yyyy/MM/dd}", urlPrefix, day.getTime());
     }
 
-    public String getDayName(int dayOfWeek)
-    {
-        switch (dayOfWeek)
-        {
+    public String getDayName(int dayOfWeek) {
+        switch (dayOfWeek) {
             case Calendar.MONDAY:
                 return "pondělí";
             case Calendar.TUESDAY:
@@ -60,23 +59,23 @@ public class DeliveryViewModel
         }
     }
 
-    public static DeliveryViewModel get(ServletRequest request)
-    {
+    public static DeliveryViewModel get(ServletRequest request) {
         return (DeliveryViewModel)request.getAttribute(requestAttributeName);
     }
 
-    public void set(ServletRequest request)
-    {
+    public void set(ServletRequest request) {
         request.setAttribute(requestAttributeName, this);
     }
 
-    public void setMenu(String restaurant, DayMenuViewModel menu)
-    {
+    public void setMenu(String restaurant, DayMenuViewModel menu) {
         menuMap.put(restaurant, menu);
     }
 
-    public DeliveryViewModel(String urlPrefix, String locationName, Calendar date)
-    {
+    public void setWarningText(String text) {
+       warningText = text;
+    }
+
+    public DeliveryViewModel(String urlPrefix, String locationName, Calendar date) {
         this.date = date;
         this.locationName = locationName;
         this.urlPrefix = urlPrefix;
