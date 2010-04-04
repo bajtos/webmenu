@@ -1,6 +1,4 @@
-* buttons for Twitter, Facebook, etc.
-* app engine button (?)
-
+* save date of DB update & return Last-Modified header
 * support If-Modified-Since
 * don't update datastore entries if the menu webpage was not changed
 
