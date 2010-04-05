@@ -72,16 +72,16 @@
             <h4>Sdílet</h4>
             <ul class="social">
                <li><a target="_blank" rel="nofollow"
-                  href="http://www.facebook.com/sharer.php?u=http://www.chci-obed.eu/&t=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů", "UTF-8")%>"
+                  href="http://www.facebook.com/sharer.php?u=http://www.chci-obed.eu/&t=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů (Hradec Králové)", "UTF-8")%>"
                   ><span class="icon facebook"></span>Facebook</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://twitter.com/home?status=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů http://www.chci-obed.eu", "UTF-8")%>"
+                  href="http://twitter.com/home?status=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů (Hradec Králové) http://www.chci-obed.eu", "UTF-8")%>"
                   ><span class="icon twitter"></span>Twitter</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://www.google.com/reader/link?url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů", "UTF-8")%>"
+                  href="http://www.google.com/reader/link?url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů (Hradec Králové)", "UTF-8")%>"
                   ><span class="icon google"></span>Google Buzz</a></li>
                <li><a target="_blank" rel="nofollow"
-                  href="http://linkuj.cz/?id=linkuj&url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů", "UTF-8")%>"
+                  href="http://linkuj.cz/?id=linkuj&url=http://www.chci-obed.eu/&title=<%=URLEncoder.encode("Přehled denních menu pro rozvoz obědů (Hradec Králové)", "UTF-8")%>"
                   ><span class="icon linkuj"></span>Linkuj</a></li>
                <%-- this does not work in all browsers :( 
                <li><a rel="nofollow"
