@@ -172,4 +172,13 @@ public class SportCafeParserTest {
         assertThat(menus[3].getSoupItems().get(0).getMeal(), equalTo("Hovězí vývar s játrovou rýží"));
         assertThat(menus[4].getSoupItems().get(0).getMeal(), equalTo("Pórková s vejcem"));
     }
+
+    @Test public void Parse_MenuPageWithEmptyPara_Works() throws Exception {
+        FileInputStream html = new FileInputStream(TestUtil.getTestData("sport-cafe-menu-empty-para.html"));
+
+        OneDayMenu[] menus = parser.parse(html);
+        assertThat(menus[0].getSoupItems().get(0).getMeal(), equalTo("Hrachová s uzeným masem"));
+        assertThat(menus[0].getMenuItems().get(0).getMeal(), equalTo("Fetucine con pollo e pana (těstoviny se smetanou a kuřecím masem)"));
+    }
+       
 }

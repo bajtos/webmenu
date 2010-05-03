@@ -39,7 +39,7 @@ public class SportCafeParser implements Parser {
 
     public String parseDayName(Node menuDiv) throws CrawlException
     {
-        Nodes nodes = menuDiv.query("x:p[1]/x:img/@src", xpathContext);
+        Nodes nodes = menuDiv.query("x:p[@class='style2'][1]/x:img/@src", xpathContext);
         if (nodes.size() != 1)
         {
             StringBuffer msg = new StringBuffer("Malformed day div: p[1] has " + nodes.size() + " images.");
@@ -59,7 +59,7 @@ public class SportCafeParser implements Parser {
 
     public String parseSoupName(Node menuDiv) throws CrawlException
     {
-        Nodes nodes = menuDiv.query("x:p[2]", xpathContext);
+        Nodes nodes = menuDiv.query("x:p[@class='style2'][2]", xpathContext);
         if (nodes.size() != 1)
         {
             throw new CrawlException("Cannot parse soup name - there is no p[2]");
@@ -77,13 +77,13 @@ public class SportCafeParser implements Parser {
 
     public int parseMenuItemCount(Node menuDiv)
     {
-        Nodes paras = menuDiv.query("x:p", xpathContext);
+        Nodes paras = menuDiv.query("x:p[@class='style2']", xpathContext);
         return paras.size() < 2 ? 0 : paras.size() - 2;
     }
 
     public MenuItem parseMenuItem(Node menuDiv, int item) throws CrawlException
     {
-        Nodes itemNodes = menuDiv.query("x:p[" + (item+3) + "]", xpathContext);
+        Nodes itemNodes = menuDiv.query("x:p[@class='style2'][" + (item+3) + "]", xpathContext);
         if (itemNodes.size() != 1)
         {
             log.warning("\tCannot parse menu item " + (item+1) + " - no para found.\n\t\t--menuDiv--\n" + menuDiv.toXML() + "\n\t\t--end--");
@@ -154,8 +154,12 @@ public class SportCafeParser implements Parser {
                 List<MenuItem> meals = new ArrayList<MenuItem>(itemCount);
                 for (int i=0; i<itemCount; i++) {
                     MenuItem item = parseMenuItem(div, i);
-                    log.fine("\t" + item.getName() + ": " + item.getMeal());
-                    meals.add(item);
+                    if (item == null) {
+                        log.fine("\tSkipped malformed menu.");
+                    } else {
+                        log.fine("\t" + item.getName() + ": " + item.getMeal());
+                        meals.add(item);
+                    }
                 }
 
                 retval[d] = new OneDayMenu(start.getTime(), soups, meals);
