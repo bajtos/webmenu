@@ -239,4 +239,11 @@ public class CafePopularParserTest {
         InputStream stream = new FileInputStream(TestUtil.getTestData("cafe-popular-spaces.pdf"));
         OneDayMenu[] menus = new CafePopularParser().parse(stream);
     }
+
+    @Test public void parse_BadDate_MenuHasCorrectDates() throws Exception {
+        InputStream stream = new FileInputStream(TestUtil.getTestData("cafe-popular-baddate.pdf"));
+        OneDayMenu[] menus = new CafePopularParser().parse(stream);
+
+        assertThat(menus[0].getDay(), equalTo(new GregorianCalendar(2010, 07-1, 05).getTime()));
+    }
 }

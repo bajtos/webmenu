@@ -62,7 +62,11 @@ public class CafePopularParser implements Parser {
             int day = Integer.parseInt(m.group(1));
             if (year < 2008 || year > 2100)
                 throw new CrawlException("Suspicious date: '" + pdfText + "', the year " + year + " is out of range");
-            return new GregorianCalendar(year, month - 1, day);
+            Calendar result = new GregorianCalendar(year, month - 1, day);
+            // Make sure the first day is Monday
+            int dayInWeek = result.get(Calendar.DAY_OF_WEEK);
+            result.add(Calendar.DAY_OF_MONTH, -(dayInWeek - Calendar.MONDAY + 7) % 7);
+            return result;
         } catch (NumberFormatException e) {
             throw new CrawlException("Canot parse date from text '" + pdfText + "'", e);
         }
@@ -79,6 +83,7 @@ public class CafePopularParser implements Parser {
             String meal = normalizeText(m.group(1));
             int price = Integer.parseInt(m.group(2));
             price += fee;
+            log.fine("Parsed '"+ name + "': '" + meal + "' for " + price + ",-");
             return new MenuItem(name, meal, price);
         } catch (NumberFormatException e) {
             throw new AssertionError("price is not a number");
@@ -143,6 +148,7 @@ public class CafePopularParser implements Parser {
             return null;
         }
 
+        log.fine("DayMenu - Soup '" + m.group(2) + "', Meal + '" + m.group(1) + "'.");
         return new MenuWithSoup(
                 new MenuItem("Dnešní", normalizeText(m.group(1)), menuPrice),
                 new SoupItem("Polévka", normalizeText(m.group(2)))
