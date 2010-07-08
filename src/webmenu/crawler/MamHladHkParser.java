@@ -13,7 +13,7 @@ import static webmenu.crawler.ParserUtil.normalizeText;
 public class MamHladHkParser implements Parser
 {
     final static Pattern MenuPricePattern = Pattern.compile("^Menu (\\d): (\\d+),- Kč$");
-    final static Pattern StartDatePattern = Pattern.compile("^(\\d+)\\.(\\d+)\\. - (\\d+)\\.(\\d+)\\.(\\d+) od .*$");
+    final static Pattern StartDatePattern = Pattern.compile("^(\\d+)\\.(\\d+)\\.+ - (\\d+)\\.(\\d+)\\.(\\d+) od .*$");
     final static Pattern MenuNumberPattern = Pattern.compile("^(\\d)\\.\\s*$");
 
     final static HtmlBuilder builder = new HtmlBuilder(XmlViolationPolicy.ALTER_INFOSET);
