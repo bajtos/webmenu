@@ -6,7 +6,11 @@
    DeliveryViewModel model = DeliveryViewModel.get(request);
    String location = model.getLocationName();
    Date today = model.getDate().getTime();
-   String todayString = MessageFormat.format("{0} {1,date,d.M.yyyy}", model.getDayName(model.getDate().get(Calendar.DAY_OF_WEEK)), today);
+   String todayName = model.getDayName(model.getDate().get(Calendar.DAY_OF_WEEK));
+   String todayString = MessageFormat.format("{0} {1,date,d.M.yyyy}", todayName, today);
+   String description = "Přehled denních menu restaurací, které poskytují rozvoz jídla.";
+   if (!model.getIsDefaultDate())
+   description = MessageFormat.format("{0} ({1,date,d.M.yyyy} - {2})", description, today, todayName);
 %>
 <!DOCTYPE html>
 <html>
@@ -15,7 +19,7 @@
    <link href="/styles/main.css" rel="stylesheet" type="text/css" />
    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
    <meta name="title" content="Rozvoz obědů - Chci oběd!"/>
-   <meta name="description" content="Přehled denních menu restaurací, které poskytují rozvoz jídla."/>
+   <meta name="description" content="<%= description %>"/>
    <link rel="img_src" href="/images/favicon.ico" /> <!-- facebook thumbnail -->
    <%-- this does not work in all browsers :( 
    <script type="text/javascript">

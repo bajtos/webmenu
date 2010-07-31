@@ -45,12 +45,11 @@ public class MainServlet extends HttpServlet {
          if (components[1].equals("rozvoz"))
          {
             try {
-                Calendar day = null;
-                if (components.length == 2)
-                   day = Calendar.getInstance();
-                else if (components.length == 5)
-                   day = new GregorianCalendar(Integer.parseInt(components[2]), Integer.parseInt(components[3])-1, Integer.parseInt(components[4]));
-                if (day != null) {
+                if (components.length == 2) {
+                   doList(req, resp, null);
+                   return;
+                } else if (components.length == 5) {
+                   Calendar day = new GregorianCalendar(Integer.parseInt(components[2]), Integer.parseInt(components[3])-1, Integer.parseInt(components[4]));
                    doList(req, resp, day);
                    return;
                 }
@@ -85,7 +84,7 @@ public class MainServlet extends HttpServlet {
 
       for (String r : Restaurants.getKeys())
       {
-          OneDayMenu menu = store.getOneDayMenu(r, day.getTime());
+          OneDayMenu menu = store.getOneDayMenu(r, model.getDate().getTime());
           Restaurant restaurant = Restaurants.getRestaurant(r);
           model.setMenu(r, new DayMenuViewModel(menu, restaurant));
       }

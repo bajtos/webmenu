@@ -14,6 +14,7 @@ public class DeliveryViewModel
     private Calendar date;
     private String locationName;
     private String warningText;
+    private boolean isDefaultDate;
 
     public String getWarningText() {
        return warningText;
@@ -21,6 +22,10 @@ public class DeliveryViewModel
 
     public Calendar getDate() {
         return date;
+    }
+
+    public boolean getIsDefaultDate() {
+       return isDefaultDate;
     }
 
     public String getLocationName() {
@@ -76,7 +81,13 @@ public class DeliveryViewModel
     }
 
     public DeliveryViewModel(String urlPrefix, String locationName, Calendar date) {
-        this.date = date;
+        if (date == null) {
+           isDefaultDate = true;
+           this.date = Calendar.getInstance();
+        } else {
+           this.date = date;
+        }
+
         this.locationName = locationName;
         this.urlPrefix = urlPrefix;
         menuMap = new HashMap<String, DayMenuViewModel>();
