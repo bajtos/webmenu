@@ -43,8 +43,11 @@ public class CafePopularParser implements Parser {
 
     static String extractText(InputStream source) throws IOException, CrawlException {
         PdfReader reader = new PdfReader(source);
-        if (reader.getNumberOfPages() != 1)
-            throw new CrawlException("The PDF document has " + reader.getNumberOfPages() + " pages.");
+        int pages = reader.getNumberOfPages();
+        if (pages < 1)
+            throw new CrawlException("The PDF document has no pages.");
+        else if (pages > 1)
+            log.warning("The PDF document has " + reader.getNumberOfPages() + " pages.");
 
         PdfTextExtractor extractor = new PdfTextExtractor(reader, new PdfTextListener());
         return extractor.getTextFromPage(1);
