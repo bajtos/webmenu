@@ -16,11 +16,11 @@ public class DeliveryViewModelTest
        Calendar monday = new GregorianCalendar(2010, 02-1, 01);
        DeliveryViewModel model = new DeliveryViewModel("/prefix", "location", monday);
 
-       assertEquals("/prefix/2010/02/01", model.getDayUrl(Calendar.MONDAY));
-       assertEquals("/prefix/2010/02/02", model.getDayUrl(Calendar.TUESDAY));
-       assertEquals("/prefix/2010/02/03", model.getDayUrl(Calendar.WEDNESDAY));
-       assertEquals("/prefix/2010/02/04", model.getDayUrl(Calendar.THURSDAY));
-       assertEquals("/prefix/2010/02/05", model.getDayUrl(Calendar.FRIDAY));
+       assertEquals("/prefix/pondeli", model.getDayUrl(Calendar.MONDAY));
+       assertEquals("/prefix/utery", model.getDayUrl(Calendar.TUESDAY));
+       assertEquals("/prefix/streda", model.getDayUrl(Calendar.WEDNESDAY));
+       assertEquals("/prefix/ctvrtek", model.getDayUrl(Calendar.THURSDAY));
+       assertEquals("/prefix/patek", model.getDayUrl(Calendar.FRIDAY));
        assertEquals(monday.getTime(), model.getDate().getTime());
     }
 
@@ -29,10 +29,10 @@ public class DeliveryViewModelTest
        Calendar friday = new GregorianCalendar(2010, 02-1, 05);
        DeliveryViewModel model = new DeliveryViewModel("/prefix", "location", friday);
 
-       assertEquals("/prefix/2010/02/01", model.getDayUrl(Calendar.MONDAY));
-       assertEquals("/prefix/2010/02/02", model.getDayUrl(Calendar.TUESDAY));
-       assertEquals("/prefix/2010/02/03", model.getDayUrl(Calendar.WEDNESDAY));
-       assertEquals("/prefix/2010/02/04", model.getDayUrl(Calendar.THURSDAY));
-       assertEquals("/prefix/2010/02/05", model.getDayUrl(Calendar.FRIDAY));
+       assertEquals("/prefix/pondeli", model.getDayUrl(Calendar.MONDAY));
+       assertEquals("/prefix/utery", model.getDayUrl(Calendar.TUESDAY));
+       assertEquals("/prefix/streda", model.getDayUrl(Calendar.WEDNESDAY));
+       assertEquals("/prefix/ctvrtek", model.getDayUrl(Calendar.THURSDAY));
+       assertEquals("/prefix/patek", model.getDayUrl(Calendar.FRIDAY));
     }
 }

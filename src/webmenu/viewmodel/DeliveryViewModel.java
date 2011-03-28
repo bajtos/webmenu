@@ -37,10 +37,26 @@ public class DeliveryViewModel
     }
 
     public String getDayUrl(int dayOfWeek) {
-        Calendar day = (Calendar)date.clone();
-        day.getTime(); // from some strange reasons we have to call this so that the calendar updates its internal state
-        day.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        return MessageFormat.format("{0}/{1,date,yyyy/MM/dd}", urlPrefix, day.getTime());
+        String part = "";
+        switch (dayOfWeek)
+        {
+            case Calendar.MONDAY:
+                part = "pondeli";
+                break;
+            case Calendar.TUESDAY:
+                part = "utery";
+                break;
+            case Calendar.WEDNESDAY:
+                part = "streda";
+                break;
+            case Calendar.THURSDAY:
+                part = "ctvrtek";
+                break;
+            case Calendar.FRIDAY:
+                part = "patek";
+                break;
+        }
+        return MessageFormat.format("{0}/{1}", urlPrefix, part);
     }
 
     public String getDayName(int dayOfWeek) {

@@ -45,18 +45,29 @@ public class MainServlet extends HttpServlet {
          if (components[1].equals("rozvoz"))
          {
             try {
-                if (components.length == 2) {
+                if (components.length == 2)
                    doList(req, resp, null);
-                   return;
-                } else if (components.length == 5) {
-                   Calendar day = new GregorianCalendar(Integer.parseInt(components[2]), Integer.parseInt(components[3])-1, Integer.parseInt(components[4]));
+                else if (components.length == 3) {
+                    String day = components[2];
+                    if (day.equals("pondeli"))
+                        doList(req, resp, getDate(Calendar.MONDAY));
+                    else if (day.equals("utery"))
+                        doList(req, resp, getDate(Calendar.TUESDAY));
+                    else if (day.equals("streda"))
+                        doList(req, resp, getDate(Calendar.WEDNESDAY));
+                    else if (day.equals("ctvrtek"))
+                        doList(req, resp, getDate(Calendar.THURSDAY));
+                    else if (day.equals("patek"))
+                        doList(req, resp, getDate(Calendar.FRIDAY));
+                    else doRedirectToHradecDelivery(req, resp);
+                } else if (components.length == 6 && components[2] == "archived") {
+                   Calendar day = new GregorianCalendar(Integer.parseInt(components[3]), Integer.parseInt(components[4])-1, Integer.parseInt(components[5]));
                    doList(req, resp, day);
-                   return;
-                }
+                } else if (components.length == 5)
+                   doRedirectToHradecDelivery(req, resp); // old style of URL
             } catch (Exception e) {
                 throw new ServletException("Unhandled exception", e);
             }
-
          }
       }
 
@@ -64,6 +75,13 @@ public class MainServlet extends HttpServlet {
       log.fine("Components: " + StringUtils.join(components, '/'));
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 	}
+
+    Calendar getDate(int dayOfWeek)
+    {
+        Calendar date = Calendar.getInstance();
+        date.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        return date;
+    }
 
 	void doRedirectToHradec(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		log.fine("Redirected to hradec-kralove");
