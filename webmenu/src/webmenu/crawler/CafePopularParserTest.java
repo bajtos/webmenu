@@ -16,16 +16,24 @@ public class CafePopularParserTest {
         TestUtil.setupLoggingToConsole();
     }
 
+    InputStream createInputStreamFromFile(String fileName) throws Exception
+    {
+    	File f = TestUtil.getTestData(fileName);
+    	return new FileInputStream(f);
+    }
+    
     InputStream getShortMenuStream() throws Exception {
-        File f = TestUtil.getTestData("cafe-popular-short.pdf");
-        return new FileInputStream(f);
+        return createInputStreamFromFile("cafe-popular-short.pdf");
     }
 
     InputStream getFullMenuStream() throws Exception {
-        File f = TestUtil.getTestData("cafe-popular-full.pdf");
-        return new FileInputStream(f);
+        return createInputStreamFromFile("cafe-popular-full.pdf");
     }
 
+    InputStream getOrderListMenuStream() throws Exception {
+    	return createInputStreamFromFile("cafe-popular-orderedlists.pdf");
+    }
+    
     String loadShortMenu() throws Exception {
         return CafePopularParser.extractText(getShortMenuStream());
     }
@@ -245,5 +253,29 @@ public class CafePopularParserTest {
         OneDayMenu[] menus = new CafePopularParser().parse(stream);
 
         assertThat(menus[0].getDay(), equalTo(new GregorianCalendar(2010, 07-1, 05).getTime()));
+    }
+    
+    @Test public void parse_OrderedList_TwoSaladsAreParsed() throws Exception {
+    	InputStream stream = getOrderListMenuStream();
+    	OneDayMenu[] menus = new CafePopularParser().parse(stream);
+    	
+    	List<MenuItem> menuItems = menus[0].getMenuItems();
+
+    	 assertThat(menuItems.get(0).getName(), equalTo("Pizza 1"));
+         assertThat(menuItems.get(1).getName(), equalTo("Pizza 2"));
+    	 assertMenuItem(menuItems.get(2), "Salát 1", "„CAESAR SALÁT“ - kuřecí prsíčka na angl. slanině, krutony, ledový salát, caesar dres., parmezan", 99);
+    	 assertMenuItem(menuItems.get(3), "Salát 2", "„TĚSTOVINOVÝ SALÁT SE ŠUNKOU A SÝREM MOZZARELLA, BAZALKOVÝM PESTEM, OŘECHY, RUCOLA“", 99);
+    	 assertThat(menuItems.get(4).getName(), equalTo("Italská"));
+    	 assertMenuItem(menuItems.get(5), "Česká 1", "„PEČENÁ KRÁLIČÍ FILETT NA ČESNEKU“ - špikovaná pečená králičí hřbet bez kosti na česneku a kmíně servírovaný s jemným výpekem, špenátem s cibulkou a domácím chlupatým knedlíke", 95 + CafePopularParser.WeekMealFee);
+    	 assertMenuItem(menuItems.get(6), "Česká 2", "„OBALOVANÝ PEČENÝ ŠNEK VINNÉ KLOBÁSY\" - smažený šnek obalované vinné klobásy servírujeme s bramborou kaší zjemněnou máslem, vídeňskou cibulkou a rajčatovým salátekem", 79 + CafePopularParser.WeekMealFee);
+         assertThat(menuItems.get(7).getName(), equalTo("Bezmasá"));
+         assertThat(menuItems.get(8).getName(), equalTo("Dnešní"));
+    }
+    
+    void assertMenuItem(MenuItem item, String name, String meal, int price)
+    {
+    	assertThat(item.getName(), equalTo(name));
+    	assertThat("item('" + name + "').meal", item.getMeal(), equalTo(meal));
+    	assertThat("item('" + name + "').price", item.getPrice(), equalTo(price));
     }
 }

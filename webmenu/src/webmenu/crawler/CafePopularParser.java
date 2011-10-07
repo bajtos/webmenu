@@ -20,15 +20,21 @@ public class CafePopularParser implements Parser {
     final static Pattern Pizza1Pattern = Pattern.compile("PIZZA\\s+No.1\\s+(.+)\\s+Kč *(\\d+),-");
     final static Pattern Pizza2Pattern = Pattern.compile("PIZZA\\s+No.2\\s+(.+)\\s+Kč *(\\d+),-");
 
+    final static String ItemRegex = "(.+\\s?.*)\\s*Kč[ \\t]*(\\d+),-";
+    final static String MultiItemRegex = "\\s+1\\.?\\s*" + ItemRegex + "\\s*[ 1.]*\\s*2\\.?\\s*" + ItemRegex;
     final static int SaladFee = 0; // TODO packaging & shipping in CZK
-    final static Pattern SaladPattern = Pattern.compile(
-            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *S *A *L *Á *T */ */ *S *A *L *A *D\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
-
+    final static String SaladHeader = "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *S *A *L *Á *T */ */ *S *A *L *A *D";
+    final static Pattern SaladPattern = Pattern.compile(SaladHeader + "\\s+●\\s*" + ItemRegex);
+    final static Pattern SaladMultiPattern = Pattern.compile(SaladHeader + MultiItemRegex);
+    
     final static int WeekMealFee = 20;
     final static Pattern ItalyPattern = Pattern.compile(
             "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *I *T *A *L *S *K *Á *K *U *C *H *Y *N *Ě */ */ *I *TA *L *I *A *N *C *O *U *S *I *N *E\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
-    final static Pattern CzechPattern = Pattern.compile(
-            "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *Č *E *S *K *Á *K *U *C *H *Y *N *Ě */ */ *C *Z *E *C *H *C *O *U *S *I *N *E\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
+    
+    final static String CzechHeader = "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *Č *E *S *K *Á *K *U *C *H *Y *N *Ě */ */ *C *Z *E *C *H *C *O *U *S *I *N *E";
+    final static Pattern CzechPattern = Pattern.compile(CzechHeader + "\\s+●\\s*" + ItemRegex);
+    final static Pattern CzechMultiPattern = Pattern.compile(CzechHeader + MultiItemRegex);
+    
     final static Pattern VegetarianPattern = Pattern.compile(
             "S *T *Á *L *Á *T *Ý *D *E *N *N *Í *N *A *B *Í *D *K *A *: *B *E *Z *M *A *S *Á *K *U *C *H *Y *N *Ě */ */ *W *I *T *H *O *U *T *M *E *AT *C *O *U *S *I *N *E\\s+●\\s*(.+\\s?.*)\\s+Kč *(\\d+),-");
 
@@ -92,6 +98,37 @@ public class CafePopularParser implements Parser {
             throw new AssertionError("price is not a number");
         }
     }
+    
+    static MenuItem[] parseMultipleMenuItems(String pdfText, Pattern pattern, String name, int fee) throws CrawlException {
+        Matcher m = pattern.matcher(pdfText);
+        if (!m.find()) {
+            log.warning(name + " not found (multiple)\n" + pdfText);
+            return new MenuItem[0];
+        }
+    
+        try {
+            List<MenuItem> items = new ArrayList<MenuItem>();
+            int index = 1;
+            int itemNumber = 1;
+            do {
+                String meal = normalizeText(m.group(index++));
+                int price = Integer.parseInt(m.group(index++));
+                price += fee;
+                
+                String itemName = name + " " + itemNumber;
+                log.fine("Parsed '"+ itemName + "': '" + meal + "' for " + price + ",-");
+                items.add(new MenuItem(itemName, meal, price));
+                itemNumber++;
+        	} while (index + 1 <= m.groupCount());
+        		
+        	if (index <= m.groupCount())
+        		log.warning(name + "ignored trailing item '" + m.group(index) + "'");
+            
+            return items.toArray(new MenuItem[0]);
+        } catch (NumberFormatException e) {
+            throw new AssertionError("price is not a number");
+        }    
+    }
 
     static MenuItem parsePizza1(String pdfText) throws CrawlException {
         return parseMenuItem(pdfText, Pizza1Pattern, "Pizza 1", PizzaFee);
@@ -104,6 +141,10 @@ public class CafePopularParser implements Parser {
     static MenuItem parseSalad(String pdfText) throws CrawlException {
         return parseMenuItem(pdfText, SaladPattern, "Salát", SaladFee);
     }
+    
+    static MenuItem[] parseMultipleSalads(String pdfText) throws CrawlException {
+    	return parseMultipleMenuItems(pdfText, SaladMultiPattern, "Salát", SaladFee);
+    }
 
     static MenuItem parseItaly(String pdfText) throws CrawlException {
         return parseMenuItem(pdfText, ItalyPattern, "Italská", WeekMealFee);
@@ -111,6 +152,10 @@ public class CafePopularParser implements Parser {
 
     static MenuItem parseCzech(String pdfText) throws CrawlException {
         return parseMenuItem(pdfText, CzechPattern, "Česká", WeekMealFee);
+    }
+    
+    static MenuItem[] parseMultipleCzech(String pdfText) throws CrawlException {
+        return parseMultipleMenuItems(pdfText, CzechMultiPattern, "Česká", WeekMealFee);
     }
 
     static MenuItem parseVegetarian(String pdfText) throws CrawlException {
@@ -187,8 +232,10 @@ public class CafePopularParser implements Parser {
             MenuItem pizza1 = parsePizza1(pdfText);
             MenuItem pizza2 = parsePizza2(pdfText);
             MenuItem salad = parseSalad(pdfText);
+            MenuItem[] moreSalads = parseMultipleSalads(pdfText);
             MenuItem italy = parseItaly(pdfText);
             MenuItem czech = parseCzech(pdfText);
+            MenuItem[] moreCzech = parseMultipleCzech(pdfText);
             MenuItem vegetarian = parseVegetarian(pdfText);
             MenuWithSoup[] days = new MenuWithSoup[] {
                 parseMonday(pdfText, dayMenuPrice),
@@ -211,12 +258,14 @@ public class CafePopularParser implements Parser {
                 soups.add(days[d].soup);
 
                 List<MenuItem> meals = new ArrayList<MenuItem>(7);
-                if (pizza1 != null) meals.add(new MenuItem(pizza1));
-                if (pizza2 != null) meals.add(new MenuItem(pizza2));
-                if (salad != null) meals.add(new MenuItem(salad));
-                if (italy != null) meals.add(new MenuItem(italy));
-                if (czech != null) meals.add(new MenuItem(czech));
-                if (vegetarian != null) meals.add(new MenuItem(vegetarian));
+                addCopyOfItemIfNotNull(meals, pizza1);
+                addCopyOfItemIfNotNull(meals, pizza2);
+                addCopyOfItemIfNotNull(meals, salad);
+                addCopyOfItemsList(meals, moreSalads);
+                addCopyOfItemIfNotNull(meals, italy);
+                addCopyOfItemIfNotNull(meals, czech);
+                addCopyOfItemsList(meals, moreCzech);
+                addCopyOfItemIfNotNull(meals, vegetarian);
                 meals.add(days[d].menu);
 
                 retval[d] = new OneDayMenu(start.getTime(), soups, meals);
@@ -226,5 +275,17 @@ public class CafePopularParser implements Parser {
         } catch (IOException e) {
             throw new CrawlException("Cannot read PDF document", e);
         }
+    }
+    
+    void addCopyOfItemIfNotNull(List<MenuItem> meals, MenuItem itemOrNull)
+    {
+    	if (itemOrNull != null)
+    		meals.add(new MenuItem(itemOrNull));
+    }
+    
+    void addCopyOfItemsList(List<MenuItem> meals, MenuItem[] items)
+    {
+    	for (MenuItem item : items)
+    		meals.add(new MenuItem(item));
     }
 }

@@ -10,7 +10,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/Ant builder.launch</value>
+					<value>&lt;project&gt;/.externalToolBuilders/webmenu build.xml [Builder].launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>
