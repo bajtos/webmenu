@@ -2,3 +2,5 @@
 /test-classes/
 *.swp
 /tags
+/.externalToolBuilders/
+/.settings/

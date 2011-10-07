@@ -18,7 +18,11 @@
       </and> </not>
     </condition>
   </fail>
-
+	
+  <presetdef name="javac">
+     <javac encoding="utf-8"/>
+  </presetdef>
+	
   <!-- Pick up the Ant macros and taskdefs for App Engine -->
   <import file="${appengine.sdk}/config/user/ant-macros.xml"/>
 
