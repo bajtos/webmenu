@@ -99,7 +99,7 @@
    </div> <!-- page -->
 
    <div id="footer" class="rounded">
-      <span>&copy; 2009-2010 by <a href="mailto:info@chci-obed.eu">Chci oběd! team</a></span>
+      <span>&copy; 2009-2011 by <a href="mailto:info@chci-obed.eu">Chci oběd! team</a></span>
       <span>Icons by <a href="http://www.fasticon.com">FastIcon.com</a></span>
    </div> <!-- footer -->
 
