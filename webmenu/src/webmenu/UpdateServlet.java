@@ -48,7 +48,7 @@ public class UpdateServlet extends HttpServlet {
             resp.getWriter().println("OK");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Update failed", e);
-            sendEmailNotification("Update failed:\n" + ExceptionUtils.getFullStackTrace(e));
+            // sendEmailNotification("Update failed:\n" + ExceptionUtils.getFullStackTrace(e));
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 	}
