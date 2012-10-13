@@ -11,59 +11,16 @@
     <servlet-class>webmenu.MainServlet</servlet-class>
   </servlet>
 
-  <servlet>
-     <servlet-name>UpdateServlet</servlet-name>
-     <servlet-class>webmenu.UpdateServlet</servlet-class>
-  </servlet>
-
-  <servlet>
-     <servlet-name>GlobalDataServlet</servlet-name>
-     <servlet-class>webmenu.GlobalDataServlet</servlet-class>
-  </servlet>
-
   <servlet-mapping>
-    <servlet-name>UpdateServlet</servlet-name>
-    <url-pattern>/admin/update/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-     <servlet-name>GlobalDataServlet</servlet-name>
-     <url-pattern>/admin/global-data</url-pattern>
+    <servlet-name>MainServlet</servlet-name>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/menu/*</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/menu</url-pattern>
-  </servlet-mapping>
-
-  <welcome-file-list>
-     <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
 
   <!-- security constraints -->
-
-  <security-constraint>
-     <web-resource-collection>
-        <web-resource-name>Views</web-resource-name>
-        <url-pattern>/view/*</url-pattern>
-     </web-resource-collection>
-     <auth-constraint/>
-  </security-constraint>
-
-  <security-constraint>
-     <web-resource-collection>
-        <web-resource-name>Administration</web-resource-name>
-        <url-pattern>/admin/*</url-pattern>
-     </web-resource-collection>
-     <auth-constraint>
-        <role-name>admin</role-name>
-     </auth-constraint>
-  </security-constraint>
-
 
 </web-app>
