@@ -1,0 +1,244 @@
+body {
+/*    background-color: #FFD2A3; */
+   background: white url("/images/hamburger.png") left 40px no-repeat;
+   margin: 0;
+   font-family: "Helvetica", "Arial", sans-serif;
+}
+
+#logo, #page, #footer {
+   position: relative;
+   left: 0; right: 0;
+   margin: 0 auto;
+   padding: 15px;
+   width: 830px;
+}
+
+#logo {
+   top: 0px;
+   padding-left: 0px;
+}
+
+#logo h1 {
+   margin: 0;
+   padding: 0;
+   line-height: 60px;
+   font-size: 230%;
+   font-weight: bold;
+}
+
+#logo h1 a {
+   text-decoration: none;
+}
+
+#page {
+   top: 0px;
+   background: #EFDD98;
+}
+
+#footer {
+   top: 10px;
+   background: #EFDD98;
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
+
+#footer span {
+   font-size: 70%;
+   margin-right: 2em;
+}
+
+
+.rounded {
+   -moz-border-radius: 20px;
+   -webkit-border-radius: 20px;
+}
+
+a:link, a:visited {
+   color: black;
+}
+
+/****** content ******/
+
+#content {
+   position: relative;
+   left: 10px;
+   width: 600px;
+   margin: 0;
+}
+
+
+#sidebar {
+   position: absolute;
+   top: 30px;
+   bottom: 30px;
+   right: 20px;
+   width: 180px;
+}
+
+#sidebar .section {
+   background-color: #f4f4f4;
+   padding: 20px;
+   margin: 20px 0;
+}
+
+#sidebar .section h4, #sidebar .section ul {
+   padding: 0;
+   margin: 0;
+}
+
+#sidebar li {
+   margin-left: 1em;
+}
+
+/** daylist **/
+ul.daylist {
+   list-style-type: none;
+}
+
+.daylist .today {
+   font-weight: bold;
+}
+
+/** social **/
+ul.social {
+   list-style-type: none;
+}
+
+.social li {
+   text-align: left;
+   line-height: 24px;
+}
+
+.icon {
+   width: 16px;
+   height: 16px;
+   background-repeat: no-repeat;
+   margin: 5px 6px 0 0;
+   text-decoration: none;
+   float: left;
+}
+
+/* Web2 Icons: http://www.iconarchive.com/category/social-network/web-2-icons-by-fasticon.html */
+.facebook {
+   background: transparent url(/images/social-icons/facebook.png) repeat scroll 0 0;
+}
+.twitter {
+   background: transparent url(/images/social-icons/twitter.png) repeat scroll 0 0;
+}
+.google {
+   background: transparent url(/images/social-icons/google.png) repeat scroll 0 0;
+}
+.bookmark {
+   background: transparent url(/images/social-icons/bookmark.png) repeat scroll 0 0;
+}
+.linkuj {
+   background: transparent url(/images/social-icons/linkuj.gif) repeat scroll 0 0;
+}
+
+/** main content **/
+#content h1 {
+   margin: 10px 0 5px 0;
+   font-size: 150%;
+   font-weight: bold;
+   text-align: center;
+}
+
+#content h2 {
+   margin: 5px 0 5px 0;
+   font-size: 100%;
+   font-weight: normal;
+   text-align: center;
+}
+
+.spacer {
+   margin: 0;
+   padding: 0;
+   height: 20px;
+}
+
+
+#content .section {
+   display: block;
+   margin: 20px 0;
+}
+
+#content hr {
+   margin: 15px auto;
+   padding: 1px;
+   border: none;
+   border-top: 1px dotted black;
+   width: 400px;
+}
+
+.section-header {
+   background-color: #f4f4f4;
+   padding: 15px 20px;
+   text-align: left;
+   display: block;
+   margin-bottom: 10px;
+}
+
+.section-header h4 {
+   font-size: 120%;
+   padding: 0px;
+   margin: 0px;
+}
+
+.header-left {
+   display: table-cell;
+   width: 200px;
+   vertical-align: middle;
+}
+
+.header-right {
+   display: table-cell;
+   width: 300px;
+   vertical-align: middle;
+}
+
+#content div.menu, .section-footer {
+   /* offset for rounded caption */
+   margin-left: 10px;
+   margin-right: 10px;
+}
+
+table.menu {
+   border-collapse: collapse;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   width: 100%;
+}
+
+
+table.menu td {
+   padding: 4px 2px;
+}
+
+table.menu td.name {
+   padding-left: 10px;
+   padding-right: 4px;
+   font-weight: bold;
+   vertical-align: top;
+   width: 3.5em;
+}
+
+table.menu td.text {
+}
+
+table.menu td.price {
+   text-align: right;
+   vertical-align: bottom;
+   width: 3.5em;
+   padding-right: 10px;
+}
+
+.section-footer {
+   display: block;
+   font-size: 70%;
+   font-style: italic;
+}
+
+.warning {
+   color: #BF382C;
+   margin: 0px 20px 10px 20px;
+}
